@@ -1,123 +1,730 @@
-<!DOCTYPE html><html lang="pt">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusConnect</title>  <style>
-    body { font-family: Arial; background:#f4f4f4; margin:0; }
-    header { background:#007bff; color:white; padding:15px; text-align:center; }
-    .container { padding:15px; }
-    input, button { width:100%; padding:10px; margin:5px 0; }
-    button { background:#007bff; color:white; border:none; }
-    .card { background:white; padding:10px; margin:10px 0; border-radius:10px; }
-  </style></head>
-<body><header>
-  <h1>CampusConnect</h1>
-</header><div class="container" id="auth">
-  <h3>Login / Registo</h3>
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-  <button onclick="register()">Registar</button>
-  <button onclick="login()">Login</button>
-  <p id="status"></p>
-</div><div class="container" id="app" style="display:none;">
-  <button onclick="logout()">Logout</button>  <div class="card">
-    <h3>🏠 Quartos</h3>
-    <input id="roomTitle" placeholder="Título do quarto">
-    <input id="roomPrice" placeholder="Preço">
-    <button onclick="addRoom()">Adicionar</button>
-    <div id="rooms"></div>
-  </div>  <div class="card">
-    <h3>🚌 Transportes próximos</h3>
-    <p>Metro mais próximo: 5 min</p>
-    <p>Autocarro: 2 min</p>
-  </div>  <div class="card">
-    <h3>⏰ Rotina</h3>
-    <input id="routine" placeholder="Ex: Aula 9h">
-    <button onclick="saveRoutine()">Guardar</button>
-    <p id="routineDisplay"></p>
-  </div>  <div class="card">
-    <h3>👥 Grupo de Estudo (chat simples)</h3>
-    <input id="msg" placeholder="Mensagem">
-    <button onclick="sendMsg()">Enviar</button>
-    <div id="chat"></div>
-  </div></div><script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CampusConnect - App Universitária</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDNar96tviOoT6rjxWMO8B_T6gnvHNY-Dg",
-  authDomain: "app3-73885.firebaseapp.com",
-  projectId: "app3-73885",
-  storageBucket: "app3-73885.firebasestorage.app",
-  messagingSenderId: "313381846985",
-  appId: "1:313381846985:web:a1ab6a75a245322499f218"
-};
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+    }
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
 
-window.register = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(()=> status.innerText="Registado")
-    .catch(e=> status.innerText=e.message);
-}
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
 
-window.login = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(()=> status.innerText="Logado")
-    .catch(e=> status.innerText=e.message);
-}
+    header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
 
-window.logout = () => signOut(auth);
+    /* Container principal */
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-onAuthStateChanged(auth, user => {
-  if(user){
-    auth.style.display='none';
-    appDiv.style.display='block';
-  }
-});
+    /* Cards */
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      animation: slideIn 0.3s ease;
+    }
 
-const appDiv = document.getElementById('app');
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-// QUARTOS
-window.addRoom = async () => {
-  await addDoc(collection(db, "rooms"), {
-    title: roomTitle.value,
-    price: roomPrice.value
-  });
-}
+    .card h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-onSnapshot(collection(db, "rooms"), snap => {
-  rooms.innerHTML="";
-  snap.forEach(doc => {
-    const r = doc.data();
-    rooms.innerHTML += `<p>${r.title} - ${r.price}€</p>`;
-  });
-});
+    .card h3 i {
+      font-size: 24px;
+    }
 
-// ROTINA
-window.saveRoutine = () => {
-  localStorage.setItem("routine", routine.value);
-  routineDisplay.innerText = routine.value;
-}
+    /* Formulários */
+    input, select, textarea {
+      width: 100%;
+      padding: 15px;
+      margin: 8px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
 
-routineDisplay.innerText = localStorage.getItem("routine") || "";
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
 
-// CHAT
-window.sendMsg = async () => {
-  await addDoc(collection(db, "chat"), {
-    text: msg.value
-  });
-}
+    button {
+      width: 100%;
+      padding: 15px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-onSnapshot(collection(db, "chat"), snap => {
-  chat.innerHTML="";
-  snap.forEach(doc => {
-    chat.innerHTML += `<p>${doc.data().text}</p>`;
-  });
-});
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
 
-</script></body>
-</html>
+    button:active {
+      transform: translateY(0);
+    }
+
+    button.secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    button.logout {
+      background: linear-gradient(135deg, #f43b47 0%, #453a94 100%);
+    }
+
+    /* Listas */
+    .room-item, .transport-item, .activity-item, .message-item {
+      background: #f8f9fa;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .room-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .room-info h4 {
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .room-info p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    /* Transportes */
+    .transport-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .transport-icon {
+      font-size: 24px;
+    }
+
+    .transport-details h4 {
+      color: #333;
+    }
+
+    .transport-details p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .distance {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    /* Rotina */
+    .routine-schedule {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .routine-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .routine-time {
+      font-weight: bold;
+      color: #667eea;
+      width: 80px;
+    }
+
+    .alarm-toggle {
+      margin-left: auto;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #667eea;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Sugestões de atividades */
+    .activity-suggestions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .activity-item {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .activity-item:hover {
+      transform: translateX(5px);
+    }
+
+    /* Chat */
+    .chat-messages {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .message-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-sender {
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .message-time {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+      align-self: flex-end;
+    }
+
+    .typing-indicator {
+      color: #999;
+      font-style: italic;
+      padding: 10px;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .loading-spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Status */
+    .status-message {
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏛️ CampusConnect</h1>
+    <p>Sua vida universitária mais conectada</p>
+  </header>
+
+  <div class="container" id="auth">
+    <div class="card">
+      <h3>🔐 Login / Registo</h3>
+      <input type="email" id="email" placeholder="Seu email universitário" value="teste@universidade.pt">
+      <input type="password" id="password" placeholder="Sua password" value="123456">
+      <button onclick="register()">📝 Registrar</button>
+      <button onclick="login()" class="secondary">🔑 Entrar</button>
+      <div id="status" class="status-message"></div>
+    </div>
+  </div>
+
+  <div class="container" id="app" style="display:none;">
+    <button onclick="logout()" class="logout">🚪 Sair</button>
+
+    <!-- Quartos -->
+    <div class="card">
+      <h3>🏠 <span>Melhores Quartos</span></h3>
+      <div class="room-filters">
+        <select id="roomFilter">
+          <option value="all">Todos os quartos</option>
+          <option value="price">Menor preço</option>
+          <option value="distance">Mais perto</option>
+        </select>
+      </div>
+      <input type="text" id="roomTitle" placeholder="Título do quarto (ex: Quarto perto da FEUP)">
+      <input type="number" id="roomPrice" placeholder="Preço (€)">
+      <input type="text" id="roomLocation" placeholder="Localização">
+      <input type="number" id="roomDistance" placeholder="Distância da universidade (min)" value="10">
+      <button onclick="addRoom()">➕ Adicionar Quarto</button>
+      <div id="rooms"></div>
+    </div>
+
+    <!-- Transportes -->
+    <div class="card">
+      <h3>🚌 <span>Transportes Próximos</span></h3>
+      <div id="transports"></div>
+    </div>
+
+    <!-- Rotina Inteligente com Despertador -->
+    <div class="card">
+      <h3>⏰ <span>Rotina Inteligente</span></h3>
+      <div class="routine-input">
+        <input type="text" id="routineActivity" placeholder="Atividade (ex: Aula de Cálculo)">
+        <input type="time" id="routineTime" value="09:00">
+        <select id="routineDay">
+          <option value="Segunda">Segunda</option>
+          <option value="Terça">Terça</option>
+          <option value="Quarta">Quarta</option>
+          <option value="Quinta">Quinta</option>
+          <option value="Sexta">Sexta</option>
+          <option value="Sábado">Sábado</option>
+          <option value="Domingo">Domingo</option>
+        </select>
+        <button onclick="addRoutine()">➕ Adicionar à Rotina</button>
+      </div>
+      <div class="routine-schedule" id="routineDisplay"></div>
+    </div>
+
+    <!-- Sugestões de Atividades -->
+    <div class="card">
+      <h3>🎯 <span>Tempo Livre</span></h3>
+      <div class="activity-suggestions" id="activities">
+        <!-- Atividades serão carregadas aqui -->
+      </div>
+    </div>
+
+    <!-- Grupos de Estudo -->
+    <div class="card">
+      <h3>👥 <span>Grupos de Estudo</span></h3>
+      <div class="study-groups">
+        <select id="studyGroup">
+          <option value="geral">Geral</option>
+          <option value="matematica">Matemática</option>
+          <option value="programacao">Programação</option>
+          <option value="fisica">Física</option>
+        </select>
+        <input type="text" id="msg" placeholder="Digite sua mensagem...">
+        <button onclick="sendMsg()">📤 Enviar</button>
+      </div>
+      <div class="chat-messages" id="chat"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDNar96tviOoT6rjxWMO8B_T6gnvHNY-Dg",
+      authDomain: "app3-73885.firebaseapp.com",
+      projectId: "app3-73885",
+      storageBucket: "app3-73885.firebasestorage.app",
+      messagingSenderId: "313381846985",
+      appId: "1:313381846985:web:a1ab6a75a245322499f218"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Elementos DOM
+    const authDiv = document.getElementById('auth');
+    const appDiv = document.getElementById('app');
+    const statusDiv = document.getElementById('status');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+
+    // Funções de Autenticação
+    window.register = async () => {
+      try {
+        statusDiv.className = 'status-message';
+        statusDiv.innerText = '⏳ Registrando...';
+        await createUserWithEmailAndPassword(auth, email.value, password.value);
+        statusDiv.className = 'status-message status-success';
+        statusDiv.innerText = '✅ Registado com sucesso!';
+      } catch (e) {
+        statusDiv.className = 'status-message status-error';
+        statusDiv.innerText = '❌ Erro: ' + e.message;
+      }
+    };
+
+    window.login = async () => {
+      try {
+        statusDiv.className = 'status-message';
+        statusDiv.innerText = '⏳ Entrando...';
+        await signInWithEmailAndPassword(auth, email.value, password.value);
+        statusDiv.className = 'status-message status-success';
+        statusDiv.innerText = '✅ Logado com sucesso!';
+      } catch (e) {
+        statusDiv.className = 'status-message status-error';
+        statusDiv.innerText = '❌ Erro: ' + e.message;
+      }
+    };
+
+    window.logout = () => signOut(auth);
+
+    // Verificar estado da autenticação
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        authDiv.style.display = 'none';
+        appDiv.style.display = 'block';
+        loadUserData();
+        startAlarmChecker();
+      } else {
+        authDiv.style.display = 'block';
+        appDiv.style.display = 'none';
+      }
+    });
+
+    // ========== QUARTOS ==========
+    window.addRoom = async () => {
+      const title = document.getElementById('roomTitle').value;
+      const price = document.getElementById('roomPrice').value;
+      const location = document.getElementById('roomLocation').value;
+      const distance = document.getElementById('roomDistance').value;
+
+      if (!title || !price) {
+        alert('Por favor, preencha título e preço');
+        return;
+      }
+
+      await addDoc(collection(db, "rooms"), {
+        title,
+        price: parseFloat(price),
+        location,
+        distance: parseFloat(distance),
+        userId: auth.currentUser?.uid,
+        timestamp: new Date()
+      });
+    };
+
+    // Carregar quartos ordenados
+    const loadRooms = () => {
+      onSnapshot(collection(db, "rooms"), snap => {
+        const roomsDiv = document.getElementById('rooms');
+        roomsDiv.innerHTML = '';
+        
+        let rooms = [];
+        snap.forEach(doc => {
+          rooms.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Ordenar por filtro selecionado
+        const filter = document.getElementById('roomFilter').value;
+        if (filter === 'price') {
+          rooms.sort((a, b) => a.price - b.price);
+        } else if (filter === 'distance') {
+          rooms.sort((a, b) => a.distance - b.distance);
+        }
+
+        rooms.forEach(room => {
+          roomsDiv.innerHTML += `
+            <div class="room-item">
+              <div class="room-info">
+                <h4>${room.title}</h4>
+                <p>📍 ${room.location || 'Localização não especificada'}</p>
+                <p>⏱️ ${room.distance || '?'} min da universidade</p>
+              </div>
+              <div class="price">${room.price}€</div>
+            </div>
+          `;
+        });
+      });
+    };
+
+    // ========== TRANSPORTES ==========
+    const loadTransports = () => {
+      const transports = [
+        { type: 'metro', name: 'Metro', line: 'Linha Azul', distance: 5, time: '5 min' },
+        { type: 'bus', name: 'Autocarro', line: 'Linha 204', distance: 2, time: '2 min' },
+        { type: 'train', name: 'Comboio', line: 'Linha de Sintra', distance: 8, time: '8 min' },
+        { type: 'bike', name: 'Bicicleta Partilhada', line: 'Estação próxima', distance: 1, time: '1 min' }
+      ];
+
+      const transportsDiv = document.getElementById('transports');
+      transportsDiv.innerHTML = transports.map(t => `
+        <div class="transport-item">
+          <div class="transport-icon">${getTransportIcon(t.type)}</div>
+          <div class="transport-details">
+            <h4>${t.name}</h4>
+            <p>${t.line}</p>
+          </div>
+          <div class="distance">${t.time}</div>
+        </div>
+      `).join('');
+    };
+
+    const getTransportIcon = (type) => {
+      switch(type) {
+        case 'metro': return '🚇';
+        case 'bus': return '🚌';
+        case 'train': return '🚂';
+        case 'bike': return '🚲';
+        default: return '🚍';
+      }
+    };
+
+    // ========== ROTINA INTELIGENTE COM DESPERTADOR ==========
+    let routines = [];
+
+    window.addRoutine = () => {
+      const activity = document.getElementById('routineActivity').value;
+      const time = document.getElementById('routineTime').value;
+      const day = document.getElementById('routineDay').value;
+
+      if (!activity || !time) {
+        alert('Preencha a atividade e horário');
+        return;
+      }
+
+      const routine = {
+        activity,
+        time,
+        day,
+        alarm: true,
+        id: Date.now()
+      };
+
+      routines.push(routine);
+      localStorage.setItem('routines', JSON.stringify(routines));
+      displayRoutines();
+      checkAlarms();
+    };
+
+    const displayRoutines = () => {
+      const routineDiv = document.getElementById('routineDisplay');
+      routines.sort((a, b) => a.time.localeCompare(b.time));
+      
+      routineDiv.innerHTML = routines.map(r => `
+        <div class="routine-item">
+          <span class="routine-time">${r.time}</span>
+          <span>${r.day} - ${r.activity}</span>
+          <div class="alarm-toggle">
+            <label class="switch">
+              <input type="checkbox" ${r.alarm ? 'checked' : ''} onchange="toggleAlarm(${r.id})">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    window.toggleAlarm = (id) => {
+      const routine = routines.find(r => r.id === id);
+      if (routine) {
+        routine.alarm = !routine.alarm;
+        localStorage.setItem('routines', JSON.stringify(routines));
+      }
+    };
+
+    const startAlarmChecker = () => {
+      // Verificar alarmes a cada minuto
+      setInterval(checkAlarms, 60000);
+    };
+
+    const checkAlarms = () => {
+      const now = new Date();
+      const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+      const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+      const currentDay = days[now.getDay()];
+
+      routines.forEach(routine => {
+        if (routine.alarm && routine.time === currentTime && routine.day === currentDay) {
+          showAlarm(routine.activity);
+        }
+      });
+    };
+
+    const showAlarm = (activity) => {
+      if (Notification.permission === 'granted') {
+        new Notification('⏰ Hora da rotina!', {
+          body: `Está na hora de: ${activity}`,
+          icon: 'https://via.placeholder.com/100'
+        });
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission();
+      }
+      
+      alert(`⏰ DESPERTADOR: Hora de ${activity}!`);
+    };
+
+    // ========== SUGESTÕES DE ATIVIDADES ==========
+    const loadActivities = () => {
+      const activities = [
+        { name: 'Biblioteca - Grupo de Estudo', time: '14:00', location: 'Biblioteca Central', type: 'study' },
+        { name: 'Workshop de Programação', time: '16:00', location: 'Lab 101', type: 'workshop' },
+        { name: 'Torneio de Futebol', time: '18:00', location: 'Campo Universitário', type: 'sports' },
+        { name: 'Cinema ao ar livre', time: '20:00', location: 'Praça Central', type: 'entertainment' },
+        { name: 'Palestra: Carreiras em Tech', time: '15:30', location: 'Auditório A', type: 'lecture' }
+      ];
+
+      const activitiesDiv = document.getElementById('activities');
+      activitiesDiv.innerHTML = activities.map(a => `
+        <div class="activity-item" onclick="joinActivity('${a.name}')">
+          <h4>${a.name}</h4>
+          <p>🕐 ${a.time} - 📍 ${a.location}</p>
+        </div>
+      `).join('');
+    };
+
+    window.joinActivity = (activity) => {
+      alert(`Você manifestou interesse em: ${activity}\nEntraremos em contato com mais informações!`);
+    };
+
+    // ========== CHAT DOS GRUPOS ==========
+    window.sendMsg = async () => {
+      const msg = document.getElementById('msg').value;
+      const group = document.getElementById('studyGroup').value;
+      
+      if (!msg) return;
+
+      await addDoc(collection(db, "chat"), {
+        text: msg,
+        group: group,
+        userId: auth.currentUser?.uid,
+        userName: auth.currentUser?.email?.split('@')[0] || 'Anônimo',
+        timestamp: new Date()
+      });
+      
+      document.getElementById('msg').value = '';
+    };
+
+    const loadChat = () => {
+      const chatDiv = document.getElementById('chat');
+      const groupSelect = document.getElementById('studyGroup');
+      
+    
