@@ -3,134 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusConnect | Hub Universitário</title>
+  <title>CampusConnect | O Teu Hub Universitário</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --primary: #3b7cff;
-      --dark: #0b2b4f;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #334155;
-      --error: #ef4444;
-      --success: #22c55e;
+      --accent: #6366f1;
+      --accent-soft: #eef2ff;
+      --dark: #0f172a;
+      --slate: #64748b;
+      --glass: rgba(255, 255, 255, 0.9);
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); }
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+    body { font-family: 'Outfit', sans-serif; background: #f1f5f9; color: var(--dark); overflow-x: hidden; }
 
-    /* Layout */
-    .header { background: var(--card); padding: 20px; border-bottom: 1px solid #e2e8f0; sticky: top; z-index: 100; text-align: center; }
-    .header h1 { font-size: 1.2rem; color: var(--dark); font-weight: 700; }
-    .header span { color: var(--primary); }
-    
-    .container { max-width: 480px; margin: 0 auto; padding: 16px; padding-bottom: 80px; }
+    /* Layout Premium */
+    .nav { background: var(--glass); backdrop-filter: blur(10px); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; sticky: top; z-index: 1000; border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
+    .nav h1 { font-size: 1.4rem; letter-spacing: -0.5px; }
+    .nav span { color: var(--accent); }
 
-    /* Cards e UI */
-    .card { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
-    .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--dark); }
-    
-    input, select { width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; margin-bottom: 10px; transition: 0.2s; }
-    input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,124,255,0.1); }
-    
-    .btn { background: var(--dark); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s; }
-    .btn:active { transform: scale(0.98); }
-    .btn-secondary { background: #f1f5f9; color: var(--dark); margin-top: 8px; }
+    .main { max-width: 500px; margin: 0 auto; padding: 20px; }
 
-    /* Componentes Específicos */
-    .room-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-    .room-meta { font-size: 0.85rem; color: #64748b; }
-    .price-tag { color: var(--primary); font-weight: 700; font-size: 1.1rem; }
+    /* Cards Estilo App Moderno */
+    .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid #ffffff; transition: transform 0.2s; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .section-header h2 { font-size: 1.1rem; font-weight: 700; opacity: 0.9; }
 
-    .routine-item { background: #f8fafc; border-left: 4px solid var(--primary); padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; }
-    
-    .chip { display: inline-block; padding: 6px 12px; background: #eff6ff; color: var(--primary); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-right: 5px; margin-bottom: 5px; }
+    /* Inputs e Botões */
+    input, select { width: 100%; padding: 14px 18px; border: 1.5px solid #e2e8f0; border-radius: 16px; font-family: inherit; font-size: 1rem; margin-bottom: 12px; background: #f8fafc; }
+    input:focus { border-color: var(--accent); background: white; }
 
-    .chat-bubble { background: #f1f5f9; padding: 10px 14px; border-radius: 16px; border-bottom-left-radius: 2px; margin-bottom: 10px; font-size: 0.9rem; }
-    .chat-user { font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+    .btn { background: var(--dark); color: white; border: none; padding: 16px; border-radius: 16px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .btn-google { background: white; color: var(--dark); border: 1.5px solid #e2e8f0; margin-top: 10px; }
+    .btn-accent { background: var(--accent); }
+
+    /* Componente de Quartos (Smart Match) */
+    .room-entry { padding: 15px; border-radius: 20px; background: #f8fafc; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
+    .room-entry:hover { border-color: var(--accent-soft); background: white; }
+    .match-badge { font-size: 0.7rem; background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 8px; font-weight: 700; }
+
+    /* Chat Estilo iMessage */
+    #chatBox { height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
+    .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; position: relative; }
+    .msg.mine { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 4px; }
+    .msg.others { align-self: flex-start; background: #f1f5f9; color: var(--dark); border-bottom-left-radius: 4px; }
+    .msg-meta { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; }
 
     .hidden { display: none !important; }
-    .status { padding: 12px; border-radius: 10px; margin-top: 10px; font-size: 0.9rem; text-align: center; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
   </style>
 </head>
 <body>
 
-  <div class="header">
+  <nav class="nav">
     <h1>🏛️ Campus<span>Connect</span></h1>
-  </div>
+    <div id="userAvatar" class="hidden" style="width: 35px; height: 35px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--accent); font-size: 0.8rem;"></div>
+  </nav>
 
-  <div class="container">
-    <div id="authScreen">
-      <div class="card" style="margin-top: 40px;">
-        <h2 style="margin-bottom: 10px;">Olá, Estudante!</h2>
-        <p style="color: #64748b; margin-bottom: 24px;">Organiza a tua vida académica num só lugar.</p>
-        <input type="email" id="email" placeholder="Email Universitário" value="estudante@uni.pt">
-        <input type="password" id="password" placeholder="Senha">
-        <button class="btn" id="loginBtn">Entrar</button>
-        <button class="btn btn-secondary" id="regBtn">Criar nova conta</button>
-        <div id="authStatus" class="status hidden"></div>
+  <div class="main">
+    <div id="loginView">
+      <div class="card" style="margin-top: 20px; text-align: center;">
+        <h2 style="font-size: 1.6rem; margin-bottom: 8px;">Faz o teu login</h2>
+        <p style="color: var(--slate); margin-bottom: 30px;">Tudo o que precisas para a tua vida na Uni.</p>
+        
+        <input type="email" id="email" placeholder="Email institucional">
+        <input type="password" id="password" placeholder="Palavra-passe">
+        
+        <button class="btn btn-accent" id="btnLogin">Entrar na conta</button>
+        <button class="btn btn-google" id="btnGoogle">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="18"> Continuar com Google
+        </button>
       </div>
     </div>
 
-    <div id="mainApp" class="hidden">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <span id="userName" style="font-weight: 600;">👋 Bem-vindo!</span>
-        <button id="logoutBtn" style="background:none; border:none; color:var(--error); cursor:pointer;">Sair</button>
-      </div>
-
+    <div id="appView" class="hidden">
+      
       <div class="card" style="background: var(--dark); color: white;">
-        <div class="section-title" style="color: white;">✨ Sugestão para agora</div>
-        <p id="smartSuggestion">Carregando sugestões...</p>
+        <div class="section-header">
+          <h2 style="color: white;">⏰ Próxima Aula</h2>
+          <span id="currentTime" style="font-size: 0.8rem; opacity: 0.6;"></span>
+        </div>
+        <div id="nextEvent">Adiciona a tua rotina abaixo 👇</div>
       </div>
 
       <div class="card">
-        <div class="section-title">🏠 Alojamento & Mobilidade</div>
-        <div style="display:flex; gap:8px; margin-bottom:15px;">
-          <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="app.toggleRoomForm()">+ Anunciar Quarto</button>
+        <div class="section-header">
+          <h2>🏠 Alojamento & Match</h2>
+          <button id="showRoomForm" style="background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer;">+ Novo</button>
+        </div>
+
+        <div id="roomForm" class="hidden" style="margin-bottom: 20px;">
+          <input type="text" id="rtitle" placeholder="Ex: T1 Baixa do Porto">
+          <input type="number" id="rprice" placeholder="Renda mensal (€)">
+          <input type="text" id="rdist" placeholder="Distância (ex: 3 min a pé)">
+          <button class="btn btn-accent" id="btnSaveRoom">Publicar Anúncio</button>
+        </div>
+
+        <div id="roomsContainer"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <h2>👥 Study Group</h2>
+          <select id="chatTopic" style="width: auto; margin-bottom: 0; padding: 5px 10px; font-size: 0.8rem; border-radius: 8px;">
+            <option value="geral">Geral</option>
+            <option value="exames">Exames</option>
+          </select>
         </div>
         
-        <div id="roomForm" class="hidden" style="background:#f8fafc; padding:15px; border-radius:12px; margin-bottom:15px;">
-          <input type="text" id="rTitle" placeholder="Título (ex: Quarto ao lado da FEUP)">
-          <input type="number" id="rPrice" placeholder="Preço Mensal (€)">
-          <input type="text" id="rDist" placeholder="Distância da Uni (ex: 5 min)">
-          <button class="btn" id="saveRoom">Publicar</button>
-        </div>
-
-        <div id="roomsList"></div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">⏰ Rotina Inteligente</div>
-        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-          <input type="time" id="taskTime" style="flex: 1; margin-bottom: 0;">
-          <input type="text" id="taskDesc" placeholder="Aula, Treino..." style="flex: 2; margin-bottom: 0;">
-          <button class="btn" id="addTask" style="width: 50px;">+</button>
-        </div>
-        <div id="routineContainer"></div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">👥 Grupos de Estudo</div>
-        <select id="chatGroup">
-          <option value="geral">Comunidade Geral</option>
-          <option value="exames">Foco Exames</option>
-          <option value="ajuda">Dúvidas Rápidas</option>
-        </select>
-        <div id="chatBox" style="height: 150px; overflow-y: auto; margin-bottom: 10px;"></div>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" id="chatMsg" placeholder="Diz algo..." style="margin-bottom: 0;">
-          <button class="btn" id="sendMsg" style="width: auto; padding: 0 20px;">➔</button>
+        <div id="chatBox"></div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+          <input type="text" id="msgInput" placeholder="Escreve aqui..." style="margin-bottom: 0;">
+          <button id="btnSend" style="background: var(--accent); color: white; border: none; width: 50px; border-radius: 16px; cursor: pointer;">➔</button>
         </div>
       </div>
+
+      <button id="btnLogout" style="width: 100%; background: none; border: none; color: var(--slate); font-size: 0.9rem; margin-top: 10px; cursor: pointer;">Terminar Sessão</button>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -142,156 +144,123 @@
       appId: "1:313381846985:web:a1ab6a75a245322499f218"
     };
 
-    const fb = initializeApp(firebaseConfig);
-    const auth = getAuth(fb);
-    const db = getFirestore(fb);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
 
-    // Objeto Global do App para organizar funções
-    const app = {
-      init() {
-        this.bindEvents();
-        this.updateSuggestions();
-        setInterval(() => this.updateSuggestions(), 60000);
-      },
-
-      bindEvents() {
-        document.getElementById('loginBtn').onclick = () => this.handleAuth('login');
-        document.getElementById('regBtn').onclick = () => this.handleAuth('register');
-        document.getElementById('logoutBtn').onclick = () => signOut(auth);
-        document.getElementById('saveRoom').onclick = () => this.addRoom();
-        document.getElementById('addTask').onclick = () => this.addRoutine();
-        document.getElementById('sendMsg').onclick = () => this.sendChat();
-      },
-
-      async handleAuth(type) {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('password').value;
-        const status = document.getElementById('authStatus');
-        
-        try {
-          status.classList.remove('hidden');
-          status.textContent = "Processando...";
-          if(type === 'login') await signInWithEmailAndPassword(auth, email, pass);
-          else await createUserWithEmailAndPassword(auth, email, pass);
-        } catch (e) {
-          status.textContent = "Erro: Verifique os dados.";
-          status.className = "status error";
-        }
-      },
-
-      toggleRoomForm() {
-        document.getElementById('roomForm').classList.toggle('hidden');
-      },
-
-      updateSuggestions() {
-        const hour = new Date().getHours();
-        const msg = document.getElementById('smartSuggestion');
-        if (hour < 12) msg.innerHTML = "🌅 <b>Foco Total:</b> A biblioteca está calma agora. Ótimo momento para revisar matéria pesada.";
-        else if (hour < 18) msg.innerHTML = "☕ <b>Tempo Livre:</b> Que tal um café no Campus? Há grupos de estudo ativos agora.";
-        else msg.innerHTML = "🌙 <b>Descompressão:</b> Hora de relaxar. Amanhã há treino de futebol no campo universitário às 08h.";
-      },
-
-      // Firestore: Quartos
-      loadRooms() {
-        onSnapshot(query(collection(db, 'rooms'), orderBy('createdAt', 'desc')), (snap) => {
-          const list = document.getElementById('roomsList');
-          list.innerHTML = '';
-          snap.forEach(doc => {
-            const r = doc.data();
-            list.innerHTML += `
-              <div class="room-card">
-                <div>
-                  <div style="font-weight:600">${r.title}</div>
-                  <div class="room-meta">📍 ${r.dist} • 🚌 Bus 204/Metro</div>
-                </div>
-                <div class="price-tag">${r.price}€</div>
-              </div>`;
-          });
-        });
-      },
-
-      async addRoom() {
-        const title = document.getElementById('rTitle').value;
-        const price = document.getElementById('rPrice').value;
-        const dist = document.getElementById('rDist').value;
-        if(!title || !price) return;
-        await addDoc(collection(db, 'rooms'), { title, price, dist, createdAt: serverTimestamp() });
-        this.toggleRoomForm();
-      },
-
-      // LocalStorage: Rotina (Privado por utilizador)
-      addRoutine() {
-        const time = document.getElementById('taskTime').value;
-        const desc = document.getElementById('taskDesc').value;
-        if(!time || !desc) return;
-        const data = JSON.parse(localStorage.getItem('my_tasks') || '[]');
-        data.push({ time, desc });
-        data.sort((a,b) => a.time.localeCompare(b.time));
-        localStorage.setItem('my_tasks', JSON.stringify(data));
-        this.renderRoutine();
-      },
-
-      renderRoutine() {
-        const container = document.getElementById('routineContainer');
-        const data = JSON.parse(localStorage.getItem('my_tasks') || '[]');
-        container.innerHTML = data.map(t => `
-          <div class="routine-item">
-            <span><b>${t.time}</b> - ${t.desc}</span>
-            <span style="cursor:pointer" onclick="alert('Lembrete Ativado!')">🔔</span>
-          </div>
-        `).join('');
-      },
-
-      // Firestore: Chat
-      sendChat() {
-        const msg = document.getElementById('chatMsg').value;
-        if(!msg) return;
-        addDoc(collection(db, 'chat'), {
-          text: msg,
-          group: document.getElementById('chatGroup').value,
-          user: auth.currentUser.email.split('@')[0],
-          timestamp: serverTimestamp()
-        });
-        document.getElementById('chatMsg').value = '';
-      },
-
-      loadChat() {
-        onSnapshot(query(collection(db, 'chat'), orderBy('timestamp', 'asc')), (snap) => {
-          const box = document.getElementById('chatBox');
-          const group = document.getElementById('chatGroup').value;
-          box.innerHTML = '';
-          snap.forEach(doc => {
-            const m = doc.data();
-            if(m.group === group) {
-              box.innerHTML += `
-                <div class="chat-bubble">
-                  <div class="chat-user">${m.user}</div>
-                  ${m.text}
-                </div>`;
-            }
-          });
-          box.scrollTop = box.scrollHeight;
-        });
-      }
+    // --- SISTEMA DE AUTENTICAÇÃO ---
+    document.getElementById('btnLogin').onclick = () => {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        signInWithEmailAndPassword(auth, e, p).catch(err => alert("Dados incorretos"));
     };
 
-    // Listener de Estado
+    document.getElementById('btnGoogle').onclick = () => {
+        signInWithPopup(auth, googleProvider).catch(err => console.log(err));
+    };
+
+    document.getElementById('btnLogout').onclick = () => signOut(auth);
+
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById('authScreen').classList.add('hidden');
-        document.getElementById('mainApp').classList.remove('hidden');
-        document.getElementById('userName').textContent = `👋 Olá, ${user.email.split('@')[0]}`;
-        app.loadRooms();
-        app.renderRoutine();
-        app.loadChat();
-      } else {
-        document.getElementById('authScreen').classList.remove('hidden');
-        document.getElementById('mainApp').classList.add('hidden');
-      }
+        const loginView = document.getElementById('loginView');
+        const appView = document.getElementById('appView');
+        const avatar = document.getElementById('userAvatar');
+
+        if (user) {
+            loginView.classList.add('hidden');
+            appView.classList.remove('hidden');
+            avatar.classList.remove('hidden');
+            avatar.textContent = user.email[0].toUpperCase();
+            initRealTimeData();
+        } else {
+            loginView.classList.remove('hidden');
+            appView.classList.add('hidden');
+            avatar.classList.add('hidden');
+        }
     });
 
-    window.app = app; // Expõe para o onclick do HTML
-    app.init();
+    // --- DADOS EM TEMPO REAL ---
+    function initRealTimeData() {
+        // Escuta Quartos
+        onSnapshot(query(collection(db, "rooms"), orderBy("createdAt", "desc")), (snap) => {
+            const container = document.getElementById('roomsContainer');
+            container.innerHTML = '';
+            snap.forEach(doc => {
+                const r = doc.data();
+                const isMatch = r.price < 400; // Lógica simples de "Melhor Preço"
+                container.innerHTML += `
+                    <div class="room-entry">
+                        <div>
+                            <div style="font-weight:700">${r.title} ${isMatch ? '<span class="match-badge">SMART MATCH</span>' : ''}</div>
+                            <div style="font-size:0.8rem; color:var(--slate)">📍 ${r.dist}</div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-weight:700; color:var(--accent)">${r.price}€</div>
+                            <div style="font-size:0.6rem; opacity:0.6">mensais</div>
+                        </div>
+                    </div>`;
+            });
+        });
+
+        // Escuta Chat (TEMPO REAL CORRIGIDO)
+        let unsubscribeChat = onSnapshot(query(collection(db, "chat"), orderBy("timestamp", "asc")), (snap) => {
+            const box = document.getElementById('chatBox');
+            const topic = document.getElementById('chatTopic').value;
+            box.innerHTML = '';
+            snap.forEach(doc => {
+                const m = doc.data();
+                if(m.topic === topic) {
+                    const isMine = m.uid === auth.currentUser.uid;
+                    box.innerHTML += `
+                        <div class="msg ${isMine ? 'mine' : 'others'}">
+                            ${!isMine ? `<span class="chat-user" style="font-size:0.7rem; font-weight:700; display:block; margin-bottom:2px;">${m.user}</span>` : ''}
+                            ${m.text}
+                            <span class="msg-meta">${m.time || ''}</span>
+                        </div>`;
+                }
+            });
+            box.scrollTop = box.scrollHeight;
+        });
+
+        document.getElementById('chatTopic').onchange = () => initRealTimeData();
+    }
+
+    // Enviar Mensagem
+    document.getElementById('btnSend').onclick = async () => {
+        const input = document.getElementById('msgInput');
+        if(!input.value) return;
+        
+        await addDoc(collection(db, "chat"), {
+            text: input.value,
+            topic: document.getElementById('chatTopic').value,
+            user: auth.currentUser.email.split('@')[0],
+            uid: auth.currentUser.uid,
+            timestamp: serverTimestamp(),
+            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        });
+        input.value = '';
+    };
+
+    // UI Logic
+    document.getElementById('showRoomForm').onclick = () => document.getElementById('roomForm').classList.toggle('hidden');
+    
+    document.getElementById('btnSaveRoom').onclick = async () => {
+        const t = document.getElementById('rtitle').value;
+        const p = document.getElementById('rprice').value;
+        const d = document.getElementById('rdist').value;
+        if(t && p) {
+            await addDoc(collection(db, "rooms"), { title: t, price: Number(p), dist: d, createdAt: serverTimestamp() });
+            document.getElementById('roomForm').classList.add('hidden');
+        }
+    };
+
+    // Clock
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+    }, 1000);
+
   </script>
 </body>
 </html>
