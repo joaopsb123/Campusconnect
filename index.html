@@ -5,396 +5,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CampusConnect · App Universitária</title>
   
-  <!-- Fonte simples e limpa -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
   
   <style>
-    /* Reset e base - sem firulas, direto ao ponto */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f7fb;
-      color: #1a1e2b;
-      line-height: 1.5;
-    }
-
-    /* Header simples */
-    .top-bar {
-      background: #ffffff;
-      padding: 16px 20px;
-      border-bottom: 1px solid #e9ecf2;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .top-bar h1 {
-      font-size: 20px;
-      font-weight: 600;
-      color: #0b2b4f;
-    }
-
-    .top-bar span {
-      color: #3b7cff;
-    }
-
-    /* Container principal */
-    .wrapper {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 16px;
-    }
-
-    /* Cards limpos */
-    .card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      border: 1px solid #eef2f6;
-    }
-
-    .card h2 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: #141b2b;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Formulários */
-    input, select {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #d8dee9;
-      border-radius: 12px;
-      font-size: 15px;
-      font-family: inherit;
-      background: white;
-      margin-bottom: 10px;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: #3b7cff;
-      box-shadow: 0 0 0 3px rgba(59,124,255,0.1);
-    }
-
-    button {
-      background: #0b2b4f;
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 500;
-      width: 100%;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button.secondary {
-      background: white;
-      color: #0b2b4f;
-      border: 1px solid #d8dee9;
-    }
-
-    button:hover {
-      background: #1f3e64;
-    }
-
-    button.secondary:hover {
-      background: #f5f7fb;
-    }
-
-    /* Login específico */
-    .auth-box {
-      background: white;
-      border-radius: 24px;
-      padding: 32px 24px;
-      margin-top: 40px;
-      border: 1px solid #eef2f6;
-    }
-
-    .auth-box h3 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .auth-box p {
-      color: #5b687c;
-      margin-bottom: 24px;
-      font-size: 15px;
-    }
-
-    .status {
-      margin-top: 16px;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .status.error {
-      background: #ffebee;
-      color: #b71c1c;
-    }
-
-    .status.success {
-      background: #e8f5e9;
-      color: #1e5e2e;
-    }
-
-    /* Lista de quartos */
-    .room-list {
-      margin-top: 16px;
-    }
-
-    .room-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 1px solid #f0f3f8;
-    }
-
-    .room-item:last-child {
-      border-bottom: none;
-    }
-
-    .room-info h4 {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .room-info p {
-      font-size: 14px;
-      color: #5b687c;
-    }
-
-    .room-price {
-      font-weight: 600;
-      color: #0b2b4f;
-    }
-
-    /* Transportes */
-    .transport-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f3f8;
-    }
-
-    .transport-name {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .transport-name span {
-      background: #f0f4fe;
-      padding: 6px 10px;
-      border-radius: 30px;
-      font-size: 14px;
-    }
-
-    .transport-dist {
-      color: #0b2b4f;
-      font-weight: 500;
-    }
-
-    /* Rotina */
-    .routine-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f3f8;
-    }
-
-    .routine-time {
-      background: #f0f4fe;
-      padding: 4px 10px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .routine-text {
-      flex: 1;
-    }
-
-    /* Sugestões */
-    .suggestion-chip {
-      background: #f5f7fb;
-      padding: 12px 16px;
-      border-radius: 12px;
-      margin-bottom: 8px;
-      font-size: 15px;
-      border: 1px solid #e9ecf2;
-    }
-
-    /* Chat */
-    .chat-message {
-      background: #f8fafd;
-      padding: 12px 16px;
-      border-radius: 14px;
-      margin-bottom: 10px;
-      font-size: 15px;
-    }
-
-    .chat-meta {
-      font-size: 13px;
-      color: #7c8ba0;
-      margin-bottom: 4px;
-    }
-
-    /* Logout */
-    .logout-btn {
-      background: none;
-      border: 1px solid #e0e6ed;
-      color: #5b687c;
-      padding: 8px 16px;
-      width: auto;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .logout-btn:hover {
-      background: #f8fafd;
-    }
-
-    /* Esconder/mostrar */
-    .hidden {
-      display: none;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f5f7fb; color: #1a1e2b; line-height: 1.5; }
+    .top-bar { background: #ffffff; padding: 16px 20px; border-bottom: 1px solid #e9ecf2; position: sticky; top: 0; z-index: 10; }
+    .top-bar h1 { font-size: 20px; font-weight: 600; color: #0b2b4f; }
+    .top-bar span { color: #3b7cff; }
+    .wrapper { max-width: 500px; margin: 0 auto; padding: 16px; }
+    .card { background: #ffffff; border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid #eef2f6; }
+    .card h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #141b2b; display: flex; align-items: center; gap: 8px; }
+    input, select { width: 100%; padding: 12px 14px; border: 1px solid #d8dee9; border-radius: 12px; font-size: 15px; margin-bottom: 10px; }
+    button { background: #0b2b4f; color: white; border: none; padding: 12px 16px; border-radius: 12px; font-size: 15px; font-weight: 500; width: 100%; cursor: pointer; }
+    button.secondary { background: white; color: #0b2b4f; border: 1px solid #d8dee9; margin-top: 8px; }
+    .auth-box { background: white; border-radius: 24px; padding: 32px 24px; margin-top: 40px; border: 1px solid #eef2f6; text-align: center; }
+    .status { margin-top: 16px; padding: 12px; border-radius: 10px; font-size: 14px; display: none; }
+    .status.error { background: #ffebee; color: #b71c1c; display: block; }
+    .status.success { background: #e8f5e9; color: #1e5e2e; display: block; }
+    .room-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f3f8; }
+    .room-price { font-weight: 600; color: #3b7cff; }
+    .transport-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f3f8; }
+    .routine-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f3f8; }
+    .routine-time { background: #f0f4fe; padding: 4px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; }
+    .chat-message { background: #f8fafd; padding: 10px; border-radius: 12px; margin-bottom: 8px; }
+    .chat-meta { font-size: 11px; color: #7c8ba0; margin-bottom: 2px; }
+    .logout-btn { background: none; border: 1px solid #e0e6ed; color: #5b687c; padding: 8px 16px; width: auto; margin-bottom: 16px; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
+
   <div class="top-bar">
     <h1>🏛️ <span>Campus</span>Connect</h1>
   </div>
 
   <div class="wrapper">
-    <!-- TELA DE LOGIN -->
     <div id="loginScreen">
       <div class="auth-box">
-        <h3>Entrar ou criar conta</h3>
-        <p>Use seu e-mail universitário</p>
-        
-        <input type="email" id="loginEmail" placeholder="seu@email.com" value="teste@uni.pt">
-        <input type="password" id="loginPassword" placeholder="senha" value="12345678">
-        
+        <h3>Bem-vindo</h3>
+        <p style="color: #5b687c; margin-bottom: 20px;">Acesse sua conta universitária</p>
+        <input type="email" id="loginEmail" placeholder="E-mail" value="teste@uni.pt">
+        <input type="password" id="loginPassword" placeholder="Senha" value="12345678">
         <button id="loginBtn">Entrar</button>
-        <button class="secondary" id="registerBtn">Criar nova conta</button>
-        
+        <button class="secondary" id="registerBtn">Criar Conta</button>
         <div id="loginStatus" class="status"></div>
       </div>
     </div>
 
-    <!-- TELA PRINCIPAL (app) -->
     <div id="appScreen" class="hidden">
       <button class="logout-btn" id="logoutBtn">← Sair</button>
 
-      <!-- Quartos -->
       <div class="card">
-        <h2>🏠 Quartos perto</h2>
-        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-          <select id="roomFilter" style="flex: 1; margin-bottom: 0;">
+        <h2>🏠 Quartos Disponíveis</h2>
+        <div style="display: flex; gap: 8px;">
+          <select id="roomFilter">
             <option value="all">Mais recentes</option>
             <option value="price">Menor preço</option>
-            <option value="distance">Mais perto</option>
           </select>
-          <button id="addRoomBtn" style="width: auto; padding: 12px 20px;">+</button>
+          <button id="addRoomBtn" style="width: 50px;">+</button>
         </div>
         
-        <!-- Form de adicionar (simples) -->
-        <div id="addRoomForm" style="display: none; margin-bottom: 20px;">
-          <input type="text" id="roomTitle" placeholder="Título (ex: Quarto na Av. Central)">
+        <div id="addRoomForm" class="hidden" style="margin-top: 15px; padding: 15px; background: #f9fbff; border-radius: 12px;">
+          <input type="text" id="roomTitle" placeholder="Ex: Quarto Individual Centro">
           <input type="number" id="roomPrice" placeholder="Preço (€)">
-          <input type="text" id="roomLocation" placeholder="Localização">
-          <input type="number" id="roomDistance" placeholder="Distância (min)">
-          <button id="saveRoomBtn">Guardar quarto</button>
+          <button id="saveRoomBtn">Publicar</button>
         </div>
-
-        <div id="roomsContainer" class="room-list"></div>
+        <div id="roomsContainer" style="margin-top: 10px;"></div>
       </div>
 
-      <!-- Transportes -->
       <div class="card">
-        <h2>🚌 Transportes próximos</h2>
+        <h2>🚌 Próximos Transportes</h2>
         <div id="transportContainer"></div>
       </div>
 
-      <!-- Rotina + Despertador -->
       <div class="card">
-        <h2>⏰ Rotina</h2>
-        <div style="display: flex; gap: 6px; margin-bottom: 12px;">
-          <input type="text" id="routineDesc" placeholder="Ex: Cálculo I" style="flex:2; margin-bottom: 0;">
-          <input type="time" id="routineTime" value="09:00" style="width: 100px; margin-bottom: 0;">
-          <button id="addRoutineBtn" style="width: auto; padding: 12px 20px;">➕</button>
+        <h2>⏰ Minha Rotina</h2>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="routineDesc" placeholder="Aula/Tarefa" style="flex: 2;">
+          <input type="time" id="routineTime" style="flex: 1;">
+          <button id="addRoutineBtn" style="width: 50px;">+</button>
         </div>
         <div id="routineList"></div>
       </div>
 
-      <!-- Sugestões de tempo livre -->
       <div class="card">
-        <h2>🎯 Tempo livre</h2>
-        <div class="suggestion-chip">📚 Grupo de estudo - Biblioteca (15h)</div>
-        <div class="suggestion-chip">⚽ Futebol no campo - 17h</div>
-        <div class="suggestion-chip">☕ Café com colegas - 11h</div>
-        <div class="suggestion-chip">🎬 CineUNI - 19h</div>
-      </div>
-
-      <!-- Grupos de estudo (chat simples) -->
-      <div class="card">
-        <h2>👥 Grupo de estudo</h2>
-        <select id="groupSelect" style="margin-bottom: 12px;">
+        <h2>👥 Grupos de Estudo</h2>
+        <select id="groupSelect">
           <option value="geral">Geral</option>
-          <option value="matematica">Matemática</option>
-          <option value="programacao">Programação</option>
+          <option value="exames">Preparação Exames</option>
         </select>
-        
+        <div id="chatMessages" style="max-height: 200px; overflow-y: auto; margin-bottom: 12px;"></div>
         <div style="display: flex; gap: 8px;">
-          <input type="text" id="chatInput" placeholder="Escrever mensagem..." style="flex:1; margin-bottom: 0;">
-          <button id="sendChatBtn" style="width: auto; padding: 12px 24px;">Enviar</button>
+          <input type="text" id="chatInput" placeholder="Mensagem..." style="margin-bottom: 0;">
+          <button id="sendChatBtn" style="width: auto;">Enviar</button>
         </div>
-        <div id="chatMessages" style="margin-top: 20px;"></div>
       </div>
     </div>
   </div>
 
   <script type="module">
-    // Config Firebase (a mesma)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { 
-      getAuth, 
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      getDocs
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDNar96tviOoT6rjxWMO8B_T6gnvHNY-Dg",
@@ -409,281 +124,147 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Elementos
-    const loginScreen = document.getElementById('loginScreen');
-    const appScreen = document.getElementById('appScreen');
+    // Seletores
     const loginStatus = document.getElementById('loginStatus');
-    
-    const loginEmail = document.getElementById('loginEmail');
-    const loginPassword = document.getElementById('loginPassword');
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
 
-    // ----- Controle de autenticação -----
-    function showError(msg) {
-      loginStatus.className = 'status error';
-      loginStatus.textContent = msg;
-    }
-
-    function showSuccess(msg) {
-      loginStatus.className = 'status success';
-      loginStatus.textContent = msg;
-    }
-
-    loginBtn.addEventListener('click', () => {
-      const email = loginEmail.value.trim();
-      const pass = loginPassword.value.trim();
-      if (!email || !pass) return showError('Preencha email e senha');
-      
-      signInWithEmailAndPassword(auth, email, pass)
-        .then(() => showSuccess('Login ok'))
-        .catch(err => showError('Erro: ' + err.message));
+    // --- AUTENTICAÇÃO ---
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (err) {
+        loginStatus.textContent = "Erro: Usuário ou senha inválidos.";
+        loginStatus.className = "status error";
+      }
     });
 
-    registerBtn.addEventListener('click', () => {
-      const email = loginEmail.value.trim();
-      const pass = loginPassword.value.trim();
-      if (!email || !pass) return showError('Preencha email e senha');
-      if (pass.length < 6) return showError('Senha deve ter pelo menos 6 caracteres');
-      
-      createUserWithEmailAndPassword(auth, email, pass)
-        .then(() => showSuccess('Conta criada!'))
-        .catch(err => showError('Erro: ' + err.message));
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+      } catch (err) {
+        loginStatus.textContent = "Erro ao criar conta.";
+        loginStatus.className = "status error";
+      }
     });
 
-    logoutBtn.addEventListener('click', () => {
-      signOut(auth);
-    });
+    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        loginScreen.classList.add('hidden');
-        appScreen.classList.remove('hidden');
-        carregarDadosIniciais();
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('appScreen').classList.remove('hidden');
+        initApp();
       } else {
-        loginScreen.classList.remove('hidden');
-        appScreen.classList.add('hidden');
-        loginStatus.textContent = ''; // limpa status
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('appScreen').classList.add('hidden');
       }
     });
 
-    // ----- Funções da app -----
-    function carregarDadosIniciais() {
-      carregarQuartos();
-      carregarTransportes();
-      carregarRotinaLocal();
-      carregarChat();
+    // --- LÓGICA DO APP ---
+    function initApp() {
+      loadRooms();
+      loadTransports();
+      loadRoutine();
+      loadChat();
     }
 
     // 1. Quartos
-    const roomsContainer = document.getElementById('roomsContainer');
-    const roomFilter = document.getElementById('roomFilter');
-    const addRoomBtn = document.getElementById('addRoomBtn');
-    const addRoomForm = document.getElementById('addRoomForm');
-    const saveRoomBtn = document.getElementById('saveRoomBtn');
+    function loadRooms() {
+      const q = query(collection(db, 'rooms'), orderBy('createdAt', 'desc'));
+      onSnapshot(q, (snap) => {
+        const container = document.getElementById('roomsContainer');
+        let html = '';
+        snap.forEach(doc => {
+          const r = doc.data();
+          html += `<div class="room-item">
+            <div><strong>${r.title}</strong></div>
+            <div class="room-price">${r.price}€</div>
+          </div>`;
+        });
+        container.innerHTML = html || '<p>Nenhum quarto disponível.</p>';
+      });
+    }
 
-    addRoomBtn.addEventListener('click', () => {
-      addRoomForm.style.display = addRoomForm.style.display === 'none' ? 'block' : 'none';
+    document.getElementById('addRoomBtn').addEventListener('click', () => {
+      document.getElementById('addRoomForm').classList.toggle('hidden');
     });
 
-    saveRoomBtn.addEventListener('click', async () => {
+    document.getElementById('saveRoomBtn').addEventListener('click', async () => {
       const title = document.getElementById('roomTitle').value;
       const price = document.getElementById('roomPrice').value;
-      const location = document.getElementById('roomLocation').value;
-      const distance = document.getElementById('roomDistance').value;
-
-      if (!title || !price) {
-        alert('Título e preço obrigatórios');
-        return;
-      }
-
-      try {
-        await addDoc(collection(db, 'rooms'), {
-          title,
-          price: Number(price),
-          location,
-          distance: Number(distance),
-          userId: auth.currentUser?.uid,
-          createdAt: new Date()
-        });
-        // limpar campos
-        document.getElementById('roomTitle').value = '';
-        document.getElementById('roomPrice').value = '';
-        document.getElementById('roomLocation').value = '';
-        document.getElementById('roomDistance').value = '';
-        addRoomForm.style.display = 'none';
-      } catch (e) {
-        alert('Erro ao adicionar');
-      }
+      if(!title || !price) return;
+      await addDoc(collection(db, 'rooms'), {
+        title, price: Number(price), createdAt: serverTimestamp()
+      });
+      document.getElementById('addRoomForm').classList.add('hidden');
     });
 
-    function carregarQuartos() {
-      onSnapshot(collection(db, 'rooms'), (snap) => {
-        let rooms = [];
-        snap.forEach(doc => rooms.push({ id: doc.id, ...doc.data() }));
-
-        const filtro = roomFilter.value;
-        if (filtro === 'price') {
-          rooms.sort((a,b) => a.price - b.price);
-        } else if (filtro === 'distance') {
-          rooms.sort((a,b) => (a.distance || 999) - (b.distance || 999));
-        } else {
-          rooms.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-        }
-
-        if (rooms.length === 0) {
-          roomsContainer.innerHTML = '<p style="color:#7c8ba0;">Nenhum quarto listado ainda.</p>';
-          return;
-        }
-
-        let html = '';
-        rooms.forEach(r => {
-          html += `
-            <div class="room-item">
-              <div class="room-info">
-                <h4>${r.title}</h4>
-                <p>📍 ${r.location || 'Localização não informada'} · ${r.distance || '?'} min</p>
-              </div>
-              <div class="room-price">${r.price}€</div>
-            </div>
-          `;
-        });
-        roomsContainer.innerHTML = html;
-      });
-    }
-
-    roomFilter.addEventListener('change', carregarQuartos);
-
-    // 2. Transportes (fixos)
-    function carregarTransportes() {
-      const transportes = [
-        { nome: 'Metro', linha: 'Linha Azul', distancia: '5 min', icone: '🚇' },
-        { nome: 'Autocarro', linha: '204', distancia: '2 min', icone: '🚌' },
-        { nome: 'Comboio', linha: 'Sintra', distancia: '8 min', icone: '🚂' },
+    // 2. Transportes (Estático para exemplo)
+    function loadTransports() {
+      const trans = [
+        { n: 'Metro Linha Amarela', d: '4 min' },
+        { n: 'Autocarro 736', d: '9 min' }
       ];
-      let html = '';
-      transportes.forEach(t => {
-        html += `
-          <div class="transport-row">
-            <div class="transport-name">
-              <span>${t.icone}</span>
-              <div>
-                <strong>${t.nome}</strong><br>
-                <span style="font-size: 13px; color:#7c8ba0;">${t.linha}</span>
-              </div>
-            </div>
-            <div class="transport-dist">${t.distancia}</div>
-          </div>
-        `;
-      });
-      document.getElementById('transportContainer').innerHTML = html;
+      document.getElementById('transportContainer').innerHTML = trans.map(t => 
+        `<div class="transport-row"><span>${t.n}</span><strong>${t.d}</strong></div>`
+      ).join('');
     }
 
-    // 3. Rotina + despertador (localStorage)
-    let rotinas = [];
-
-    function carregarRotinaLocal() {
-      const saved = localStorage.getItem('campus_routines');
-      if (saved) {
-        try { rotinas = JSON.parse(saved); } catch (e) { rotinas = []; }
-      } else {
-        // exemplo inicial
-        rotinas = [
-          { id: Date.now(), desc: 'Aula Cálculo', time: '09:00' },
-          { id: Date.now()+1, desc: 'Almoço', time: '12:30' }
-        ];
-      }
-      renderRotinas();
-    }
-
-    function renderRotinas() {
-      const container = document.getElementById('routineList');
-      if (rotinas.length === 0) {
-        container.innerHTML = '<p style="color:#7c8ba0;">Nenhuma rotina definida.</p>';
-        return;
-      }
-      let html = '';
-      rotinas.forEach(r => {
-        html += `
-          <div class="routine-item">
-            <span class="routine-time">${r.time}</span>
-            <span class="routine-text">${r.desc}</span>
-            <span style="color:#0b2b4f;">🔔</span>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-      localStorage.setItem('campus_routines', JSON.stringify(rotinas));
+    // 3. Rotina
+    function loadRoutine() {
+      const routines = JSON.parse(localStorage.getItem('uni_routines') || '[]');
+      document.getElementById('routineList').innerHTML = routines.map(r => 
+        `<div class="routine-item"><span class="routine-time">${r.time}</span><span>${r.desc}</span></div>`
+      ).join('');
     }
 
     document.getElementById('addRoutineBtn').addEventListener('click', () => {
-      const desc = document.getElementById('routineDesc').value.trim();
+      const desc = document.getElementById('routineDesc').value;
       const time = document.getElementById('routineTime').value;
-      if (!desc || !time) return alert('Preencha descrição e horário');
-      
-      rotinas.push({ id: Date.now(), desc, time });
-      renderRotinas();
-      document.getElementById('routineDesc').value = '';
+      if(!desc || !time) return;
+      const routines = JSON.parse(localStorage.getItem('uni_routines') || '[]');
+      routines.push({ desc, time });
+      localStorage.setItem('uni_routines', JSON.stringify(routines));
+      loadRoutine();
     });
 
-    // (simulação de alarme: alert se horário atual bater)
-    setInterval(() => {
-      const agora = new Date();
-      const horaAtual = `${agora.getHours().toString().padStart(2,'0')}:${agora.getMinutes().toString().padStart(2,'0')}`;
-      rotinas.forEach(r => {
-        if (r.time === horaAtual) {
-          // só mostra se não mostrou nos últimos 5 min (simplificado)
-          if (!r.lastAlert || (Date.now() - r.lastAlert) > 300000) {
-            alert(`🔔 Hora: ${r.desc}`);
-            r.lastAlert = Date.now();
-          }
-        }
-      });
-    }, 30000); // verifica a cada 30s
-
-    // 4. Chat (Firestore)
-    const chatInput = document.getElementById('chatInput');
-    const sendChatBtn = document.getElementById('sendChatBtn');
-    const groupSelect = document.getElementById('groupSelect');
-    const chatMessages = document.getElementById('chatMessages');
-
-    sendChatBtn.addEventListener('click', async () => {
-      const texto = chatInput.value.trim();
-      if (!texto) return;
-      try {
-        await addDoc(collection(db, 'chat'), {
-          text: texto,
-          group: groupSelect.value,
-          userId: auth.currentUser?.uid,
-          userEmail: auth.currentUser?.email,
-          timestamp: new Date()
-        });
-        chatInput.value = '';
-      } catch (e) {
-        alert('Erro ao enviar');
-      }
-    });
-
-    function carregarChat() {
-      const q = query(collection(db, 'chat'), orderBy('timestamp', 'desc'));
+    // 4. Chat
+    function loadChat() {
+      const q = query(collection(db, 'chat'), orderBy('timestamp', 'asc'));
       onSnapshot(q, (snap) => {
-        const grupoAtual = groupSelect.value;
-        let msgs = [];
-        snap.forEach(doc => msgs.push({ id: doc.id, ...doc.data() }));
-        
-        msgs = msgs.filter(m => m.group === grupoAtual).slice(0, 15); // últimas 15
-        
-        if (msgs.length === 0) {
-          chatMessages.innerHTML = '<p style="color:#7c8ba0;">Nenhuma mensagem ainda.</p>';
-          return;
-        }
-        
+        const group = document.getElementById('groupSelect').value;
+        const container = document.getElementById('chatMessages');
         let html = '';
-        msgs.reverse().forEach(m => { // mais antiga primeiro
-          const hora = m.timestamp?.toDate ? 
-            m.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 
-            '';
-          html += `
-            <div class="chat-message">
-              <div class="chat-meta">${m.userEmail?.split('@')[0] || 'Alguém'} · 
+        snap.forEach(doc => {
+          const m = doc.data();
+          if(m.group === group) {
+            html += `<div class="chat-message">
+              <div class="chat-meta">${m.user}</div>
+              <div>${m.text}</div>
+            </div>`;
+          }
+        });
+        container.innerHTML = html;
+        container.scrollTop = container.scrollHeight;
+      });
+    }
+
+    document.getElementById('sendChatBtn').addEventListener('click', async () => {
+      const text = document.getElementById('chatInput').value;
+      if(!text) return;
+      await addDoc(collection(db, 'chat'), {
+        text,
+        group: document.getElementById('groupSelect').value,
+        user: auth.currentUser.email.split('@')[0],
+        timestamp: serverTimestamp()
+      });
+      document.getElementById('chatInput').value = '';
+    });
+
+  </script>
+</body>
+</html>
+
