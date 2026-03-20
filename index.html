@@ -3,104 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusConnect · App Universitária</title>
+  <title>CampusConnect | Hub Universitário</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   
   <style>
+    :root {
+      --primary: #3b7cff;
+      --dark: #0b2b4f;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #334155;
+      --error: #ef4444;
+      --success: #22c55e;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #f5f7fb; color: #1a1e2b; line-height: 1.5; }
-    .top-bar { background: #ffffff; padding: 16px 20px; border-bottom: 1px solid #e9ecf2; position: sticky; top: 0; z-index: 10; }
-    .top-bar h1 { font-size: 20px; font-weight: 600; color: #0b2b4f; }
-    .top-bar span { color: #3b7cff; }
-    .wrapper { max-width: 500px; margin: 0 auto; padding: 16px; }
-    .card { background: #ffffff; border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid #eef2f6; }
-    .card h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #141b2b; display: flex; align-items: center; gap: 8px; }
-    input, select { width: 100%; padding: 12px 14px; border: 1px solid #d8dee9; border-radius: 12px; font-size: 15px; margin-bottom: 10px; }
-    button { background: #0b2b4f; color: white; border: none; padding: 12px 16px; border-radius: 12px; font-size: 15px; font-weight: 500; width: 100%; cursor: pointer; }
-    button.secondary { background: white; color: #0b2b4f; border: 1px solid #d8dee9; margin-top: 8px; }
-    .auth-box { background: white; border-radius: 24px; padding: 32px 24px; margin-top: 40px; border: 1px solid #eef2f6; text-align: center; }
-    .status { margin-top: 16px; padding: 12px; border-radius: 10px; font-size: 14px; display: none; }
-    .status.error { background: #ffebee; color: #b71c1c; display: block; }
-    .status.success { background: #e8f5e9; color: #1e5e2e; display: block; }
-    .room-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f3f8; }
-    .room-price { font-weight: 600; color: #3b7cff; }
-    .transport-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f3f8; }
-    .routine-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f3f8; }
-    .routine-time { background: #f0f4fe; padding: 4px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; }
-    .chat-message { background: #f8fafd; padding: 10px; border-radius: 12px; margin-bottom: 8px; }
-    .chat-meta { font-size: 11px; color: #7c8ba0; margin-bottom: 2px; }
-    .logout-btn { background: none; border: 1px solid #e0e6ed; color: #5b687c; padding: 8px 16px; width: auto; margin-bottom: 16px; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+    /* Layout */
+    .header { background: var(--card); padding: 20px; border-bottom: 1px solid #e2e8f0; sticky: top; z-index: 100; text-align: center; }
+    .header h1 { font-size: 1.2rem; color: var(--dark); font-weight: 700; }
+    .header span { color: var(--primary); }
+    
+    .container { max-width: 480px; margin: 0 auto; padding: 16px; padding-bottom: 80px; }
+
+    /* Cards e UI */
+    .card { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
+    .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--dark); }
+    
+    input, select { width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; font-family: inherit; margin-bottom: 10px; transition: 0.2s; }
+    input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,124,255,0.1); }
+    
+    .btn { background: var(--dark); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s; }
+    .btn:active { transform: scale(0.98); }
+    .btn-secondary { background: #f1f5f9; color: var(--dark); margin-top: 8px; }
+
+    /* Componentes Específicos */
+    .room-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+    .room-meta { font-size: 0.85rem; color: #64748b; }
+    .price-tag { color: var(--primary); font-weight: 700; font-size: 1.1rem; }
+
+    .routine-item { background: #f8fafc; border-left: 4px solid var(--primary); padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    
+    .chip { display: inline-block; padding: 6px 12px; background: #eff6ff; color: var(--primary); border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-right: 5px; margin-bottom: 5px; }
+
+    .chat-bubble { background: #f1f5f9; padding: 10px 14px; border-radius: 16px; border-bottom-left-radius: 2px; margin-bottom: 10px; font-size: 0.9rem; }
+    .chat-user { font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+
     .hidden { display: none !important; }
+    .status { padding: 12px; border-radius: 10px; margin-top: 10px; font-size: 0.9rem; text-align: center; }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <h1>🏛️ <span>Campus</span>Connect</h1>
+  <div class="header">
+    <h1>🏛️ Campus<span>Connect</span></h1>
   </div>
 
-  <div class="wrapper">
-    <div id="loginScreen">
-      <div class="auth-box">
-        <h3>Bem-vindo</h3>
-        <p style="color: #5b687c; margin-bottom: 20px;">Acesse sua conta universitária</p>
-        <input type="email" id="loginEmail" placeholder="E-mail" value="teste@uni.pt">
-        <input type="password" id="loginPassword" placeholder="Senha" value="12345678">
-        <button id="loginBtn">Entrar</button>
-        <button class="secondary" id="registerBtn">Criar Conta</button>
-        <div id="loginStatus" class="status"></div>
+  <div class="container">
+    <div id="authScreen">
+      <div class="card" style="margin-top: 40px;">
+        <h2 style="margin-bottom: 10px;">Olá, Estudante!</h2>
+        <p style="color: #64748b; margin-bottom: 24px;">Organiza a tua vida académica num só lugar.</p>
+        <input type="email" id="email" placeholder="Email Universitário" value="estudante@uni.pt">
+        <input type="password" id="password" placeholder="Senha">
+        <button class="btn" id="loginBtn">Entrar</button>
+        <button class="btn btn-secondary" id="regBtn">Criar nova conta</button>
+        <div id="authStatus" class="status hidden"></div>
       </div>
     </div>
 
-    <div id="appScreen" class="hidden">
-      <button class="logout-btn" id="logoutBtn">← Sair</button>
+    <div id="mainApp" class="hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <span id="userName" style="font-weight: 600;">👋 Bem-vindo!</span>
+        <button id="logoutBtn" style="background:none; border:none; color:var(--error); cursor:pointer;">Sair</button>
+      </div>
+
+      <div class="card" style="background: var(--dark); color: white;">
+        <div class="section-title" style="color: white;">✨ Sugestão para agora</div>
+        <p id="smartSuggestion">Carregando sugestões...</p>
+      </div>
 
       <div class="card">
-        <h2>🏠 Quartos Disponíveis</h2>
-        <div style="display: flex; gap: 8px;">
-          <select id="roomFilter">
-            <option value="all">Mais recentes</option>
-            <option value="price">Menor preço</option>
-          </select>
-          <button id="addRoomBtn" style="width: 50px;">+</button>
+        <div class="section-title">🏠 Alojamento & Mobilidade</div>
+        <div style="display:flex; gap:8px; margin-bottom:15px;">
+          <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="app.toggleRoomForm()">+ Anunciar Quarto</button>
         </div>
         
-        <div id="addRoomForm" class="hidden" style="margin-top: 15px; padding: 15px; background: #f9fbff; border-radius: 12px;">
-          <input type="text" id="roomTitle" placeholder="Ex: Quarto Individual Centro">
-          <input type="number" id="roomPrice" placeholder="Preço (€)">
-          <button id="saveRoomBtn">Publicar</button>
+        <div id="roomForm" class="hidden" style="background:#f8fafc; padding:15px; border-radius:12px; margin-bottom:15px;">
+          <input type="text" id="rTitle" placeholder="Título (ex: Quarto ao lado da FEUP)">
+          <input type="number" id="rPrice" placeholder="Preço Mensal (€)">
+          <input type="text" id="rDist" placeholder="Distância da Uni (ex: 5 min)">
+          <button class="btn" id="saveRoom">Publicar</button>
         </div>
-        <div id="roomsContainer" style="margin-top: 10px;"></div>
+
+        <div id="roomsList"></div>
       </div>
 
       <div class="card">
-        <h2>🚌 Próximos Transportes</h2>
-        <div id="transportContainer"></div>
-      </div>
-
-      <div class="card">
-        <h2>⏰ Minha Rotina</h2>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" id="routineDesc" placeholder="Aula/Tarefa" style="flex: 2;">
-          <input type="time" id="routineTime" style="flex: 1;">
-          <button id="addRoutineBtn" style="width: 50px;">+</button>
+        <div class="section-title">⏰ Rotina Inteligente</div>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <input type="time" id="taskTime" style="flex: 1; margin-bottom: 0;">
+          <input type="text" id="taskDesc" placeholder="Aula, Treino..." style="flex: 2; margin-bottom: 0;">
+          <button class="btn" id="addTask" style="width: 50px;">+</button>
         </div>
-        <div id="routineList"></div>
+        <div id="routineContainer"></div>
       </div>
 
       <div class="card">
-        <h2>👥 Grupos de Estudo</h2>
-        <select id="groupSelect">
-          <option value="geral">Geral</option>
-          <option value="exames">Preparação Exames</option>
+        <div class="section-title">👥 Grupos de Estudo</div>
+        <select id="chatGroup">
+          <option value="geral">Comunidade Geral</option>
+          <option value="exames">Foco Exames</option>
+          <option value="ajuda">Dúvidas Rápidas</option>
         </select>
-        <div id="chatMessages" style="max-height: 200px; overflow-y: auto; margin-bottom: 12px;"></div>
+        <div id="chatBox" style="height: 150px; overflow-y: auto; margin-bottom: 10px;"></div>
         <div style="display: flex; gap: 8px;">
-          <input type="text" id="chatInput" placeholder="Mensagem..." style="margin-bottom: 0;">
-          <button id="sendChatBtn" style="width: auto;">Enviar</button>
+          <input type="text" id="chatMsg" placeholder="Diz algo..." style="margin-bottom: 0;">
+          <button class="btn" id="sendMsg" style="width: auto; padding: 0 20px;">➔</button>
         </div>
       </div>
     </div>
@@ -108,7 +130,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -120,151 +142,156 @@
       appId: "1:313381846985:web:a1ab6a75a245322499f218"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const fb = initializeApp(firebaseConfig);
+    const auth = getAuth(fb);
+    const db = getFirestore(fb);
 
-    // Seletores
-    const loginStatus = document.getElementById('loginStatus');
+    // Objeto Global do App para organizar funções
+    const app = {
+      init() {
+        this.bindEvents();
+        this.updateSuggestions();
+        setInterval(() => this.updateSuggestions(), 60000);
+      },
 
-    // --- AUTENTICAÇÃO ---
-    document.getElementById('loginBtn').addEventListener('click', async () => {
-      const email = document.getElementById('loginEmail').value;
-      const pass = document.getElementById('loginPassword').value;
-      try {
-        await signInWithEmailAndPassword(auth, email, pass);
-      } catch (err) {
-        loginStatus.textContent = "Erro: Usuário ou senha inválidos.";
-        loginStatus.className = "status error";
+      bindEvents() {
+        document.getElementById('loginBtn').onclick = () => this.handleAuth('login');
+        document.getElementById('regBtn').onclick = () => this.handleAuth('register');
+        document.getElementById('logoutBtn').onclick = () => signOut(auth);
+        document.getElementById('saveRoom').onclick = () => this.addRoom();
+        document.getElementById('addTask').onclick = () => this.addRoutine();
+        document.getElementById('sendMsg').onclick = () => this.sendChat();
+      },
+
+      async handleAuth(type) {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('password').value;
+        const status = document.getElementById('authStatus');
+        
+        try {
+          status.classList.remove('hidden');
+          status.textContent = "Processando...";
+          if(type === 'login') await signInWithEmailAndPassword(auth, email, pass);
+          else await createUserWithEmailAndPassword(auth, email, pass);
+        } catch (e) {
+          status.textContent = "Erro: Verifique os dados.";
+          status.className = "status error";
+        }
+      },
+
+      toggleRoomForm() {
+        document.getElementById('roomForm').classList.toggle('hidden');
+      },
+
+      updateSuggestions() {
+        const hour = new Date().getHours();
+        const msg = document.getElementById('smartSuggestion');
+        if (hour < 12) msg.innerHTML = "🌅 <b>Foco Total:</b> A biblioteca está calma agora. Ótimo momento para revisar matéria pesada.";
+        else if (hour < 18) msg.innerHTML = "☕ <b>Tempo Livre:</b> Que tal um café no Campus? Há grupos de estudo ativos agora.";
+        else msg.innerHTML = "🌙 <b>Descompressão:</b> Hora de relaxar. Amanhã há treino de futebol no campo universitário às 08h.";
+      },
+
+      // Firestore: Quartos
+      loadRooms() {
+        onSnapshot(query(collection(db, 'rooms'), orderBy('createdAt', 'desc')), (snap) => {
+          const list = document.getElementById('roomsList');
+          list.innerHTML = '';
+          snap.forEach(doc => {
+            const r = doc.data();
+            list.innerHTML += `
+              <div class="room-card">
+                <div>
+                  <div style="font-weight:600">${r.title}</div>
+                  <div class="room-meta">📍 ${r.dist} • 🚌 Bus 204/Metro</div>
+                </div>
+                <div class="price-tag">${r.price}€</div>
+              </div>`;
+          });
+        });
+      },
+
+      async addRoom() {
+        const title = document.getElementById('rTitle').value;
+        const price = document.getElementById('rPrice').value;
+        const dist = document.getElementById('rDist').value;
+        if(!title || !price) return;
+        await addDoc(collection(db, 'rooms'), { title, price, dist, createdAt: serverTimestamp() });
+        this.toggleRoomForm();
+      },
+
+      // LocalStorage: Rotina (Privado por utilizador)
+      addRoutine() {
+        const time = document.getElementById('taskTime').value;
+        const desc = document.getElementById('taskDesc').value;
+        if(!time || !desc) return;
+        const data = JSON.parse(localStorage.getItem('my_tasks') || '[]');
+        data.push({ time, desc });
+        data.sort((a,b) => a.time.localeCompare(b.time));
+        localStorage.setItem('my_tasks', JSON.stringify(data));
+        this.renderRoutine();
+      },
+
+      renderRoutine() {
+        const container = document.getElementById('routineContainer');
+        const data = JSON.parse(localStorage.getItem('my_tasks') || '[]');
+        container.innerHTML = data.map(t => `
+          <div class="routine-item">
+            <span><b>${t.time}</b> - ${t.desc}</span>
+            <span style="cursor:pointer" onclick="alert('Lembrete Ativado!')">🔔</span>
+          </div>
+        `).join('');
+      },
+
+      // Firestore: Chat
+      sendChat() {
+        const msg = document.getElementById('chatMsg').value;
+        if(!msg) return;
+        addDoc(collection(db, 'chat'), {
+          text: msg,
+          group: document.getElementById('chatGroup').value,
+          user: auth.currentUser.email.split('@')[0],
+          timestamp: serverTimestamp()
+        });
+        document.getElementById('chatMsg').value = '';
+      },
+
+      loadChat() {
+        onSnapshot(query(collection(db, 'chat'), orderBy('timestamp', 'asc')), (snap) => {
+          const box = document.getElementById('chatBox');
+          const group = document.getElementById('chatGroup').value;
+          box.innerHTML = '';
+          snap.forEach(doc => {
+            const m = doc.data();
+            if(m.group === group) {
+              box.innerHTML += `
+                <div class="chat-bubble">
+                  <div class="chat-user">${m.user}</div>
+                  ${m.text}
+                </div>`;
+            }
+          });
+          box.scrollTop = box.scrollHeight;
+        });
       }
-    });
+    };
 
-    document.getElementById('registerBtn').addEventListener('click', async () => {
-      const email = document.getElementById('loginEmail').value;
-      const pass = document.getElementById('loginPassword').value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, pass);
-      } catch (err) {
-        loginStatus.textContent = "Erro ao criar conta.";
-        loginStatus.className = "status error";
-      }
-    });
-
-    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
-
+    // Listener de Estado
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('appScreen').classList.remove('hidden');
-        initApp();
+        document.getElementById('authScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        document.getElementById('userName').textContent = `👋 Olá, ${user.email.split('@')[0]}`;
+        app.loadRooms();
+        app.renderRoutine();
+        app.loadChat();
       } else {
-        document.getElementById('loginScreen').classList.remove('hidden');
-        document.getElementById('appScreen').classList.add('hidden');
+        document.getElementById('authScreen').classList.remove('hidden');
+        document.getElementById('mainApp').classList.add('hidden');
       }
     });
 
-    // --- LÓGICA DO APP ---
-    function initApp() {
-      loadRooms();
-      loadTransports();
-      loadRoutine();
-      loadChat();
-    }
-
-    // 1. Quartos
-    function loadRooms() {
-      const q = query(collection(db, 'rooms'), orderBy('createdAt', 'desc'));
-      onSnapshot(q, (snap) => {
-        const container = document.getElementById('roomsContainer');
-        let html = '';
-        snap.forEach(doc => {
-          const r = doc.data();
-          html += `<div class="room-item">
-            <div><strong>${r.title}</strong></div>
-            <div class="room-price">${r.price}€</div>
-          </div>`;
-        });
-        container.innerHTML = html || '<p>Nenhum quarto disponível.</p>';
-      });
-    }
-
-    document.getElementById('addRoomBtn').addEventListener('click', () => {
-      document.getElementById('addRoomForm').classList.toggle('hidden');
-    });
-
-    document.getElementById('saveRoomBtn').addEventListener('click', async () => {
-      const title = document.getElementById('roomTitle').value;
-      const price = document.getElementById('roomPrice').value;
-      if(!title || !price) return;
-      await addDoc(collection(db, 'rooms'), {
-        title, price: Number(price), createdAt: serverTimestamp()
-      });
-      document.getElementById('addRoomForm').classList.add('hidden');
-    });
-
-    // 2. Transportes (Estático para exemplo)
-    function loadTransports() {
-      const trans = [
-        { n: 'Metro Linha Amarela', d: '4 min' },
-        { n: 'Autocarro 736', d: '9 min' }
-      ];
-      document.getElementById('transportContainer').innerHTML = trans.map(t => 
-        `<div class="transport-row"><span>${t.n}</span><strong>${t.d}</strong></div>`
-      ).join('');
-    }
-
-    // 3. Rotina
-    function loadRoutine() {
-      const routines = JSON.parse(localStorage.getItem('uni_routines') || '[]');
-      document.getElementById('routineList').innerHTML = routines.map(r => 
-        `<div class="routine-item"><span class="routine-time">${r.time}</span><span>${r.desc}</span></div>`
-      ).join('');
-    }
-
-    document.getElementById('addRoutineBtn').addEventListener('click', () => {
-      const desc = document.getElementById('routineDesc').value;
-      const time = document.getElementById('routineTime').value;
-      if(!desc || !time) return;
-      const routines = JSON.parse(localStorage.getItem('uni_routines') || '[]');
-      routines.push({ desc, time });
-      localStorage.setItem('uni_routines', JSON.stringify(routines));
-      loadRoutine();
-    });
-
-    // 4. Chat
-    function loadChat() {
-      const q = query(collection(db, 'chat'), orderBy('timestamp', 'asc'));
-      onSnapshot(q, (snap) => {
-        const group = document.getElementById('groupSelect').value;
-        const container = document.getElementById('chatMessages');
-        let html = '';
-        snap.forEach(doc => {
-          const m = doc.data();
-          if(m.group === group) {
-            html += `<div class="chat-message">
-              <div class="chat-meta">${m.user}</div>
-              <div>${m.text}</div>
-            </div>`;
-          }
-        });
-        container.innerHTML = html;
-        container.scrollTop = container.scrollHeight;
-      });
-    }
-
-    document.getElementById('sendChatBtn').addEventListener('click', async () => {
-      const text = document.getElementById('chatInput').value;
-      if(!text) return;
-      await addDoc(collection(db, 'chat'), {
-        text,
-        group: document.getElementById('groupSelect').value,
-        user: auth.currentUser.email.split('@')[0],
-        timestamp: serverTimestamp()
-      });
-      document.getElementById('chatInput').value = '';
-    });
-
+    window.app = app; // Expõe para o onclick do HTML
+    app.init();
   </script>
 </body>
 </html>
-
