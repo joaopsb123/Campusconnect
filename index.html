@@ -2,9 +2,16 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>CampusConnect - App Universitária</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect · App Universitária</title>
+  
+  <!-- Fonte simples e limpa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  
   <style>
+    /* Reset e base - sem firulas, direto ao ponto */
     * {
       margin: 0;
       padding: 0;
@@ -12,441 +19,383 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f7fb;
+      color: #1a1e2b;
+      line-height: 1.5;
     }
 
-    /* Header */
-    header {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    /* Header simples */
+    .top-bar {
+      background: #ffffff;
+      padding: 16px 20px;
+      border-bottom: 1px solid #e9ecf2;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    header h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
+    .top-bar h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #0b2b4f;
     }
 
-    header p {
-      font-size: 14px;
-      opacity: 0.9;
+    .top-bar span {
+      color: #3b7cff;
     }
 
     /* Container principal */
-    .container {
-      padding: 20px;
-      max-width: 600px;
+    .wrapper {
+      max-width: 500px;
       margin: 0 auto;
+      padding: 16px;
     }
 
-    /* Cards */
+    /* Cards limpos */
     .card {
-      background: white;
+      background: #ffffff;
+      border-radius: 16px;
       padding: 20px;
-      margin: 20px 0;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      animation: slideIn 0.3s ease;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      border: 1px solid #eef2f6;
     }
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card h3 {
-      color: #333;
-      margin-bottom: 15px;
-      font-size: 20px;
+    .card h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #141b2b;
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .card h3 i {
-      font-size: 24px;
+      gap: 8px;
     }
 
     /* Formulários */
-    input, select, textarea {
+    input, select {
       width: 100%;
-      padding: 15px;
-      margin: 8px 0;
-      border: 2px solid #e0e0e0;
+      padding: 12px 14px;
+      border: 1px solid #d8dee9;
       border-radius: 12px;
-      font-size: 16px;
-      transition: all 0.3s;
+      font-size: 15px;
+      font-family: inherit;
+      background: white;
+      margin-bottom: 10px;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus, select:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+      border-color: #3b7cff;
+      box-shadow: 0 0 0 3px rgba(59,124,255,0.1);
     }
 
     button {
-      width: 100%;
-      padding: 15px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #0b2b4f;
       color: white;
-      font-size: 16px;
-      font-weight: 600;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      width: 100%;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    button:active {
-      transform: translateY(0);
+      transition: background 0.2s;
     }
 
     button.secondary {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      background: white;
+      color: #0b2b4f;
+      border: 1px solid #d8dee9;
     }
 
-    button.logout {
-      background: linear-gradient(135deg, #f43b47 0%, #453a94 100%);
+    button:hover {
+      background: #1f3e64;
     }
 
-    /* Listas */
-    .room-item, .transport-item, .activity-item, .message-item {
-      background: #f8f9fa;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
+    button.secondary:hover {
+      background: #f5f7fb;
+    }
+
+    /* Login específico */
+    .auth-box {
+      background: white;
+      border-radius: 24px;
+      padding: 32px 24px;
+      margin-top: 40px;
+      border: 1px solid #eef2f6;
+    }
+
+    .auth-box h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .auth-box p {
+      color: #5b687c;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .status.error {
+      background: #ffebee;
+      color: #b71c1c;
+    }
+
+    .status.success {
+      background: #e8f5e9;
+      color: #1e5e2e;
+    }
+
+    /* Lista de quartos */
+    .room-list {
+      margin-top: 16px;
     }
 
     .room-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f3f8;
+    }
+
+    .room-item:last-child {
+      border-bottom: none;
     }
 
     .room-info h4 {
-      color: #333;
-      margin-bottom: 5px;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
     .room-info p {
-      color: #666;
       font-size: 14px;
+      color: #5b687c;
     }
 
-    .price {
-      font-size: 20px;
-      font-weight: bold;
-      color: #667eea;
+    .room-price {
+      font-weight: 600;
+      color: #0b2b4f;
     }
 
     /* Transportes */
-    .transport-item {
+    .transport-row {
       display: flex;
       align-items: center;
-      gap: 15px;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f3f8;
     }
 
-    .transport-icon {
-      font-size: 24px;
+    .transport-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .transport-details h4 {
-      color: #333;
-    }
-
-    .transport-details p {
-      color: #666;
+    .transport-name span {
+      background: #f0f4fe;
+      padding: 6px 10px;
+      border-radius: 30px;
       font-size: 14px;
     }
 
-    .distance {
-      color: #28a745;
-      font-weight: bold;
+    .transport-dist {
+      color: #0b2b4f;
+      font-weight: 500;
     }
 
     /* Rotina */
-    .routine-schedule {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 15px;
-    }
-
     .routine-item {
       display: flex;
       align-items: center;
-      padding: 10px;
-      border-bottom: 1px solid #e0e0e0;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f3f8;
     }
 
     .routine-time {
-      font-weight: bold;
-      color: #667eea;
-      width: 80px;
+      background: #f0f4fe;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
     }
 
-    .alarm-toggle {
-      margin-left: auto;
+    .routine-text {
+      flex: 1;
     }
 
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: #667eea;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    /* Sugestões de atividades */
-    .activity-suggestions {
-      display: grid;
-      gap: 10px;
-    }
-
-    .activity-item {
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .activity-item:hover {
-      transform: translateX(5px);
+    /* Sugestões */
+    .suggestion-chip {
+      background: #f5f7fb;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      font-size: 15px;
+      border: 1px solid #e9ecf2;
     }
 
     /* Chat */
-    .chat-messages {
-      max-height: 300px;
-      overflow-y: auto;
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 12px;
+    .chat-message {
+      background: #f8fafd;
+      padding: 12px 16px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      font-size: 15px;
     }
 
-    .message-item {
-      display: flex;
-      flex-direction: column;
+    .chat-meta {
+      font-size: 13px;
+      color: #7c8ba0;
+      margin-bottom: 4px;
     }
 
-    .message-sender {
-      font-weight: bold;
-      color: #667eea;
-      margin-bottom: 5px;
+    /* Logout */
+    .logout-btn {
+      background: none;
+      border: 1px solid #e0e6ed;
+      color: #5b687c;
+      padding: 8px 16px;
+      width: auto;
+      margin-bottom: 20px;
+      font-size: 14px;
     }
 
-    .message-time {
-      font-size: 12px;
-      color: #999;
-      margin-top: 5px;
-      align-self: flex-end;
+    .logout-btn:hover {
+      background: #f8fafd;
     }
 
-    .typing-indicator {
-      color: #999;
-      font-style: italic;
-      padding: 10px;
-    }
-
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .loading-spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #667eea;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Status */
-    .status-message {
-      padding: 10px;
-      border-radius: 8px;
-      margin: 10px 0;
-      text-align: center;
-    }
-
-    .status-success {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .status-error {
-      background: #f8d7da;
-      color: #721c24;
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .container {
-        padding: 10px;
-      }
-      
-      h1 {
-        font-size: 24px;
-      }
+    /* Esconder/mostrar */
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🏛️ CampusConnect</h1>
-    <p>Sua vida universitária mais conectada</p>
-  </header>
-
-  <div class="container" id="auth">
-    <div class="card">
-      <h3>🔐 Login / Registo</h3>
-      <input type="email" id="email" placeholder="Seu email universitário" value="teste@universidade.pt">
-      <input type="password" id="password" placeholder="Sua password" value="123456">
-      <button onclick="register()">📝 Registrar</button>
-      <button onclick="login()" class="secondary">🔑 Entrar</button>
-      <div id="status" class="status-message"></div>
-    </div>
+  <div class="top-bar">
+    <h1>🏛️ <span>Campus</span>Connect</h1>
   </div>
 
-  <div class="container" id="app" style="display:none;">
-    <button onclick="logout()" class="logout">🚪 Sair</button>
-
-    <!-- Quartos -->
-    <div class="card">
-      <h3>🏠 <span>Melhores Quartos</span></h3>
-      <div class="room-filters">
-        <select id="roomFilter">
-          <option value="all">Todos os quartos</option>
-          <option value="price">Menor preço</option>
-          <option value="distance">Mais perto</option>
-        </select>
-      </div>
-      <input type="text" id="roomTitle" placeholder="Título do quarto (ex: Quarto perto da FEUP)">
-      <input type="number" id="roomPrice" placeholder="Preço (€)">
-      <input type="text" id="roomLocation" placeholder="Localização">
-      <input type="number" id="roomDistance" placeholder="Distância da universidade (min)" value="10">
-      <button onclick="addRoom()">➕ Adicionar Quarto</button>
-      <div id="rooms"></div>
-    </div>
-
-    <!-- Transportes -->
-    <div class="card">
-      <h3>🚌 <span>Transportes Próximos</span></h3>
-      <div id="transports"></div>
-    </div>
-
-    <!-- Rotina Inteligente com Despertador -->
-    <div class="card">
-      <h3>⏰ <span>Rotina Inteligente</span></h3>
-      <div class="routine-input">
-        <input type="text" id="routineActivity" placeholder="Atividade (ex: Aula de Cálculo)">
-        <input type="time" id="routineTime" value="09:00">
-        <select id="routineDay">
-          <option value="Segunda">Segunda</option>
-          <option value="Terça">Terça</option>
-          <option value="Quarta">Quarta</option>
-          <option value="Quinta">Quinta</option>
-          <option value="Sexta">Sexta</option>
-          <option value="Sábado">Sábado</option>
-          <option value="Domingo">Domingo</option>
-        </select>
-        <button onclick="addRoutine()">➕ Adicionar à Rotina</button>
-      </div>
-      <div class="routine-schedule" id="routineDisplay"></div>
-    </div>
-
-    <!-- Sugestões de Atividades -->
-    <div class="card">
-      <h3>🎯 <span>Tempo Livre</span></h3>
-      <div class="activity-suggestions" id="activities">
-        <!-- Atividades serão carregadas aqui -->
+  <div class="wrapper">
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen">
+      <div class="auth-box">
+        <h3>Entrar ou criar conta</h3>
+        <p>Use seu e-mail universitário</p>
+        
+        <input type="email" id="loginEmail" placeholder="seu@email.com" value="teste@uni.pt">
+        <input type="password" id="loginPassword" placeholder="senha" value="12345678">
+        
+        <button id="loginBtn">Entrar</button>
+        <button class="secondary" id="registerBtn">Criar nova conta</button>
+        
+        <div id="loginStatus" class="status"></div>
       </div>
     </div>
 
-    <!-- Grupos de Estudo -->
-    <div class="card">
-      <h3>👥 <span>Grupos de Estudo</span></h3>
-      <div class="study-groups">
-        <select id="studyGroup">
+    <!-- TELA PRINCIPAL (app) -->
+    <div id="appScreen" class="hidden">
+      <button class="logout-btn" id="logoutBtn">← Sair</button>
+
+      <!-- Quartos -->
+      <div class="card">
+        <h2>🏠 Quartos perto</h2>
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <select id="roomFilter" style="flex: 1; margin-bottom: 0;">
+            <option value="all">Mais recentes</option>
+            <option value="price">Menor preço</option>
+            <option value="distance">Mais perto</option>
+          </select>
+          <button id="addRoomBtn" style="width: auto; padding: 12px 20px;">+</button>
+        </div>
+        
+        <!-- Form de adicionar (simples) -->
+        <div id="addRoomForm" style="display: none; margin-bottom: 20px;">
+          <input type="text" id="roomTitle" placeholder="Título (ex: Quarto na Av. Central)">
+          <input type="number" id="roomPrice" placeholder="Preço (€)">
+          <input type="text" id="roomLocation" placeholder="Localização">
+          <input type="number" id="roomDistance" placeholder="Distância (min)">
+          <button id="saveRoomBtn">Guardar quarto</button>
+        </div>
+
+        <div id="roomsContainer" class="room-list"></div>
+      </div>
+
+      <!-- Transportes -->
+      <div class="card">
+        <h2>🚌 Transportes próximos</h2>
+        <div id="transportContainer"></div>
+      </div>
+
+      <!-- Rotina + Despertador -->
+      <div class="card">
+        <h2>⏰ Rotina</h2>
+        <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+          <input type="text" id="routineDesc" placeholder="Ex: Cálculo I" style="flex:2; margin-bottom: 0;">
+          <input type="time" id="routineTime" value="09:00" style="width: 100px; margin-bottom: 0;">
+          <button id="addRoutineBtn" style="width: auto; padding: 12px 20px;">➕</button>
+        </div>
+        <div id="routineList"></div>
+      </div>
+
+      <!-- Sugestões de tempo livre -->
+      <div class="card">
+        <h2>🎯 Tempo livre</h2>
+        <div class="suggestion-chip">📚 Grupo de estudo - Biblioteca (15h)</div>
+        <div class="suggestion-chip">⚽ Futebol no campo - 17h</div>
+        <div class="suggestion-chip">☕ Café com colegas - 11h</div>
+        <div class="suggestion-chip">🎬 CineUNI - 19h</div>
+      </div>
+
+      <!-- Grupos de estudo (chat simples) -->
+      <div class="card">
+        <h2>👥 Grupo de estudo</h2>
+        <select id="groupSelect" style="margin-bottom: 12px;">
           <option value="geral">Geral</option>
           <option value="matematica">Matemática</option>
           <option value="programacao">Programação</option>
-          <option value="fisica">Física</option>
         </select>
-        <input type="text" id="msg" placeholder="Digite sua mensagem...">
-        <button onclick="sendMsg()">📤 Enviar</button>
+        
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="chatInput" placeholder="Escrever mensagem..." style="flex:1; margin-bottom: 0;">
+          <button id="sendChatBtn" style="width: auto; padding: 12px 24px;">Enviar</button>
+        </div>
+        <div id="chatMessages" style="margin-top: 20px;"></div>
       </div>
-      <div class="chat-messages" id="chat"></div>
     </div>
   </div>
 
   <script type="module">
+    // Config Firebase (a mesma)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDNar96tviOoT6rjxWMO8B_T6gnvHNY-Dg",
       authDomain: "app3-73885.firebaseapp.com",
@@ -456,275 +405,285 @@
       appId: "1:313381846985:web:a1ab6a75a245322499f218"
     };
 
-    // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Elementos DOM
-    const authDiv = document.getElementById('auth');
-    const appDiv = document.getElementById('app');
-    const statusDiv = document.getElementById('status');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
+    // Elementos
+    const loginScreen = document.getElementById('loginScreen');
+    const appScreen = document.getElementById('appScreen');
+    const loginStatus = document.getElementById('loginStatus');
+    
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
 
-    // Funções de Autenticação
-    window.register = async () => {
-      try {
-        statusDiv.className = 'status-message';
-        statusDiv.innerText = '⏳ Registrando...';
-        await createUserWithEmailAndPassword(auth, email.value, password.value);
-        statusDiv.className = 'status-message status-success';
-        statusDiv.innerText = '✅ Registado com sucesso!';
-      } catch (e) {
-        statusDiv.className = 'status-message status-error';
-        statusDiv.innerText = '❌ Erro: ' + e.message;
-      }
-    };
+    // ----- Controle de autenticação -----
+    function showError(msg) {
+      loginStatus.className = 'status error';
+      loginStatus.textContent = msg;
+    }
 
-    window.login = async () => {
-      try {
-        statusDiv.className = 'status-message';
-        statusDiv.innerText = '⏳ Entrando...';
-        await signInWithEmailAndPassword(auth, email.value, password.value);
-        statusDiv.className = 'status-message status-success';
-        statusDiv.innerText = '✅ Logado com sucesso!';
-      } catch (e) {
-        statusDiv.className = 'status-message status-error';
-        statusDiv.innerText = '❌ Erro: ' + e.message;
-      }
-    };
+    function showSuccess(msg) {
+      loginStatus.className = 'status success';
+      loginStatus.textContent = msg;
+    }
 
-    window.logout = () => signOut(auth);
+    loginBtn.addEventListener('click', () => {
+      const email = loginEmail.value.trim();
+      const pass = loginPassword.value.trim();
+      if (!email || !pass) return showError('Preencha email e senha');
+      
+      signInWithEmailAndPassword(auth, email, pass)
+        .then(() => showSuccess('Login ok'))
+        .catch(err => showError('Erro: ' + err.message));
+    });
 
-    // Verificar estado da autenticação
-    onAuthStateChanged(auth, user => {
+    registerBtn.addEventListener('click', () => {
+      const email = loginEmail.value.trim();
+      const pass = loginPassword.value.trim();
+      if (!email || !pass) return showError('Preencha email e senha');
+      if (pass.length < 6) return showError('Senha deve ter pelo menos 6 caracteres');
+      
+      createUserWithEmailAndPassword(auth, email, pass)
+        .then(() => showSuccess('Conta criada!'))
+        .catch(err => showError('Erro: ' + err.message));
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth);
+    });
+
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        authDiv.style.display = 'none';
-        appDiv.style.display = 'block';
-        loadUserData();
-        startAlarmChecker();
+        loginScreen.classList.add('hidden');
+        appScreen.classList.remove('hidden');
+        carregarDadosIniciais();
       } else {
-        authDiv.style.display = 'block';
-        appDiv.style.display = 'none';
+        loginScreen.classList.remove('hidden');
+        appScreen.classList.add('hidden');
+        loginStatus.textContent = ''; // limpa status
       }
     });
 
-    // ========== QUARTOS ==========
-    window.addRoom = async () => {
+    // ----- Funções da app -----
+    function carregarDadosIniciais() {
+      carregarQuartos();
+      carregarTransportes();
+      carregarRotinaLocal();
+      carregarChat();
+    }
+
+    // 1. Quartos
+    const roomsContainer = document.getElementById('roomsContainer');
+    const roomFilter = document.getElementById('roomFilter');
+    const addRoomBtn = document.getElementById('addRoomBtn');
+    const addRoomForm = document.getElementById('addRoomForm');
+    const saveRoomBtn = document.getElementById('saveRoomBtn');
+
+    addRoomBtn.addEventListener('click', () => {
+      addRoomForm.style.display = addRoomForm.style.display === 'none' ? 'block' : 'none';
+    });
+
+    saveRoomBtn.addEventListener('click', async () => {
       const title = document.getElementById('roomTitle').value;
       const price = document.getElementById('roomPrice').value;
       const location = document.getElementById('roomLocation').value;
       const distance = document.getElementById('roomDistance').value;
 
       if (!title || !price) {
-        alert('Por favor, preencha título e preço');
+        alert('Título e preço obrigatórios');
         return;
       }
 
-      await addDoc(collection(db, "rooms"), {
-        title,
-        price: parseFloat(price),
-        location,
-        distance: parseFloat(distance),
-        userId: auth.currentUser?.uid,
-        timestamp: new Date()
-      });
-    };
-
-    // Carregar quartos ordenados
-    const loadRooms = () => {
-      onSnapshot(collection(db, "rooms"), snap => {
-        const roomsDiv = document.getElementById('rooms');
-        roomsDiv.innerHTML = '';
-        
-        let rooms = [];
-        snap.forEach(doc => {
-          rooms.push({ id: doc.id, ...doc.data() });
+      try {
+        await addDoc(collection(db, 'rooms'), {
+          title,
+          price: Number(price),
+          location,
+          distance: Number(distance),
+          userId: auth.currentUser?.uid,
+          createdAt: new Date()
         });
+        // limpar campos
+        document.getElementById('roomTitle').value = '';
+        document.getElementById('roomPrice').value = '';
+        document.getElementById('roomLocation').value = '';
+        document.getElementById('roomDistance').value = '';
+        addRoomForm.style.display = 'none';
+      } catch (e) {
+        alert('Erro ao adicionar');
+      }
+    });
 
-        // Ordenar por filtro selecionado
-        const filter = document.getElementById('roomFilter').value;
-        if (filter === 'price') {
-          rooms.sort((a, b) => a.price - b.price);
-        } else if (filter === 'distance') {
-          rooms.sort((a, b) => a.distance - b.distance);
+    function carregarQuartos() {
+      onSnapshot(collection(db, 'rooms'), (snap) => {
+        let rooms = [];
+        snap.forEach(doc => rooms.push({ id: doc.id, ...doc.data() }));
+
+        const filtro = roomFilter.value;
+        if (filtro === 'price') {
+          rooms.sort((a,b) => a.price - b.price);
+        } else if (filtro === 'distance') {
+          rooms.sort((a,b) => (a.distance || 999) - (b.distance || 999));
+        } else {
+          rooms.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
         }
 
-        rooms.forEach(room => {
-          roomsDiv.innerHTML += `
+        if (rooms.length === 0) {
+          roomsContainer.innerHTML = '<p style="color:#7c8ba0;">Nenhum quarto listado ainda.</p>';
+          return;
+        }
+
+        let html = '';
+        rooms.forEach(r => {
+          html += `
             <div class="room-item">
               <div class="room-info">
-                <h4>${room.title}</h4>
-                <p>📍 ${room.location || 'Localização não especificada'}</p>
-                <p>⏱️ ${room.distance || '?'} min da universidade</p>
+                <h4>${r.title}</h4>
+                <p>📍 ${r.location || 'Localização não informada'} · ${r.distance || '?'} min</p>
               </div>
-              <div class="price">${room.price}€</div>
+              <div class="room-price">${r.price}€</div>
             </div>
           `;
         });
+        roomsContainer.innerHTML = html;
       });
-    };
+    }
 
-    // ========== TRANSPORTES ==========
-    const loadTransports = () => {
-      const transports = [
-        { type: 'metro', name: 'Metro', line: 'Linha Azul', distance: 5, time: '5 min' },
-        { type: 'bus', name: 'Autocarro', line: 'Linha 204', distance: 2, time: '2 min' },
-        { type: 'train', name: 'Comboio', line: 'Linha de Sintra', distance: 8, time: '8 min' },
-        { type: 'bike', name: 'Bicicleta Partilhada', line: 'Estação próxima', distance: 1, time: '1 min' }
+    roomFilter.addEventListener('change', carregarQuartos);
+
+    // 2. Transportes (fixos)
+    function carregarTransportes() {
+      const transportes = [
+        { nome: 'Metro', linha: 'Linha Azul', distancia: '5 min', icone: '🚇' },
+        { nome: 'Autocarro', linha: '204', distancia: '2 min', icone: '🚌' },
+        { nome: 'Comboio', linha: 'Sintra', distancia: '8 min', icone: '🚂' },
       ];
-
-      const transportsDiv = document.getElementById('transports');
-      transportsDiv.innerHTML = transports.map(t => `
-        <div class="transport-item">
-          <div class="transport-icon">${getTransportIcon(t.type)}</div>
-          <div class="transport-details">
-            <h4>${t.name}</h4>
-            <p>${t.line}</p>
+      let html = '';
+      transportes.forEach(t => {
+        html += `
+          <div class="transport-row">
+            <div class="transport-name">
+              <span>${t.icone}</span>
+              <div>
+                <strong>${t.nome}</strong><br>
+                <span style="font-size: 13px; color:#7c8ba0;">${t.linha}</span>
+              </div>
+            </div>
+            <div class="transport-dist">${t.distancia}</div>
           </div>
-          <div class="distance">${t.time}</div>
-        </div>
-      `).join('');
-    };
+        `;
+      });
+      document.getElementById('transportContainer').innerHTML = html;
+    }
 
-    const getTransportIcon = (type) => {
-      switch(type) {
-        case 'metro': return '🚇';
-        case 'bus': return '🚌';
-        case 'train': return '🚂';
-        case 'bike': return '🚲';
-        default: return '🚍';
+    // 3. Rotina + despertador (localStorage)
+    let rotinas = [];
+
+    function carregarRotinaLocal() {
+      const saved = localStorage.getItem('campus_routines');
+      if (saved) {
+        try { rotinas = JSON.parse(saved); } catch (e) { rotinas = []; }
+      } else {
+        // exemplo inicial
+        rotinas = [
+          { id: Date.now(), desc: 'Aula Cálculo', time: '09:00' },
+          { id: Date.now()+1, desc: 'Almoço', time: '12:30' }
+        ];
       }
-    };
+      renderRotinas();
+    }
 
-    // ========== ROTINA INTELIGENTE COM DESPERTADOR ==========
-    let routines = [];
-
-    window.addRoutine = () => {
-      const activity = document.getElementById('routineActivity').value;
-      const time = document.getElementById('routineTime').value;
-      const day = document.getElementById('routineDay').value;
-
-      if (!activity || !time) {
-        alert('Preencha a atividade e horário');
+    function renderRotinas() {
+      const container = document.getElementById('routineList');
+      if (rotinas.length === 0) {
+        container.innerHTML = '<p style="color:#7c8ba0;">Nenhuma rotina definida.</p>';
         return;
       }
-
-      const routine = {
-        activity,
-        time,
-        day,
-        alarm: true,
-        id: Date.now()
-      };
-
-      routines.push(routine);
-      localStorage.setItem('routines', JSON.stringify(routines));
-      displayRoutines();
-      checkAlarms();
-    };
-
-    const displayRoutines = () => {
-      const routineDiv = document.getElementById('routineDisplay');
-      routines.sort((a, b) => a.time.localeCompare(b.time));
-      
-      routineDiv.innerHTML = routines.map(r => `
-        <div class="routine-item">
-          <span class="routine-time">${r.time}</span>
-          <span>${r.day} - ${r.activity}</span>
-          <div class="alarm-toggle">
-            <label class="switch">
-              <input type="checkbox" ${r.alarm ? 'checked' : ''} onchange="toggleAlarm(${r.id})">
-              <span class="slider"></span>
-            </label>
+      let html = '';
+      rotinas.forEach(r => {
+        html += `
+          <div class="routine-item">
+            <span class="routine-time">${r.time}</span>
+            <span class="routine-text">${r.desc}</span>
+            <span style="color:#0b2b4f;">🔔</span>
           </div>
-        </div>
-      `).join('');
-    };
+        `;
+      });
+      container.innerHTML = html;
+      localStorage.setItem('campus_routines', JSON.stringify(rotinas));
+    }
 
-    window.toggleAlarm = (id) => {
-      const routine = routines.find(r => r.id === id);
-      if (routine) {
-        routine.alarm = !routine.alarm;
-        localStorage.setItem('routines', JSON.stringify(routines));
-      }
-    };
+    document.getElementById('addRoutineBtn').addEventListener('click', () => {
+      const desc = document.getElementById('routineDesc').value.trim();
+      const time = document.getElementById('routineTime').value;
+      if (!desc || !time) return alert('Preencha descrição e horário');
+      
+      rotinas.push({ id: Date.now(), desc, time });
+      renderRotinas();
+      document.getElementById('routineDesc').value = '';
+    });
 
-    const startAlarmChecker = () => {
-      // Verificar alarmes a cada minuto
-      setInterval(checkAlarms, 60000);
-    };
-
-    const checkAlarms = () => {
-      const now = new Date();
-      const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-      const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-      const currentDay = days[now.getDay()];
-
-      routines.forEach(routine => {
-        if (routine.alarm && routine.time === currentTime && routine.day === currentDay) {
-          showAlarm(routine.activity);
+    // (simulação de alarme: alert se horário atual bater)
+    setInterval(() => {
+      const agora = new Date();
+      const horaAtual = `${agora.getHours().toString().padStart(2,'0')}:${agora.getMinutes().toString().padStart(2,'0')}`;
+      rotinas.forEach(r => {
+        if (r.time === horaAtual) {
+          // só mostra se não mostrou nos últimos 5 min (simplificado)
+          if (!r.lastAlert || (Date.now() - r.lastAlert) > 300000) {
+            alert(`🔔 Hora: ${r.desc}`);
+            r.lastAlert = Date.now();
+          }
         }
       });
-    };
+    }, 30000); // verifica a cada 30s
 
-    const showAlarm = (activity) => {
-      if (Notification.permission === 'granted') {
-        new Notification('⏰ Hora da rotina!', {
-          body: `Está na hora de: ${activity}`,
-          icon: 'https://via.placeholder.com/100'
+    // 4. Chat (Firestore)
+    const chatInput = document.getElementById('chatInput');
+    const sendChatBtn = document.getElementById('sendChatBtn');
+    const groupSelect = document.getElementById('groupSelect');
+    const chatMessages = document.getElementById('chatMessages');
+
+    sendChatBtn.addEventListener('click', async () => {
+      const texto = chatInput.value.trim();
+      if (!texto) return;
+      try {
+        await addDoc(collection(db, 'chat'), {
+          text: texto,
+          group: groupSelect.value,
+          userId: auth.currentUser?.uid,
+          userEmail: auth.currentUser?.email,
+          timestamp: new Date()
         });
-      } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission();
+        chatInput.value = '';
+      } catch (e) {
+        alert('Erro ao enviar');
       }
-      
-      alert(`⏰ DESPERTADOR: Hora de ${activity}!`);
-    };
+    });
 
-    // ========== SUGESTÕES DE ATIVIDADES ==========
-    const loadActivities = () => {
-      const activities = [
-        { name: 'Biblioteca - Grupo de Estudo', time: '14:00', location: 'Biblioteca Central', type: 'study' },
-        { name: 'Workshop de Programação', time: '16:00', location: 'Lab 101', type: 'workshop' },
-        { name: 'Torneio de Futebol', time: '18:00', location: 'Campo Universitário', type: 'sports' },
-        { name: 'Cinema ao ar livre', time: '20:00', location: 'Praça Central', type: 'entertainment' },
-        { name: 'Palestra: Carreiras em Tech', time: '15:30', location: 'Auditório A', type: 'lecture' }
-      ];
-
-      const activitiesDiv = document.getElementById('activities');
-      activitiesDiv.innerHTML = activities.map(a => `
-        <div class="activity-item" onclick="joinActivity('${a.name}')">
-          <h4>${a.name}</h4>
-          <p>🕐 ${a.time} - 📍 ${a.location}</p>
-        </div>
-      `).join('');
-    };
-
-    window.joinActivity = (activity) => {
-      alert(`Você manifestou interesse em: ${activity}\nEntraremos em contato com mais informações!`);
-    };
-
-    // ========== CHAT DOS GRUPOS ==========
-    window.sendMsg = async () => {
-      const msg = document.getElementById('msg').value;
-      const group = document.getElementById('studyGroup').value;
-      
-      if (!msg) return;
-
-      await addDoc(collection(db, "chat"), {
-        text: msg,
-        group: group,
-        userId: auth.currentUser?.uid,
-        userName: auth.currentUser?.email?.split('@')[0] || 'Anônimo',
-        timestamp: new Date()
-      });
-      
-      document.getElementById('msg').value = '';
-    };
-
-    const loadChat = () => {
-      const chatDiv = document.getElementById('chat');
-      const groupSelect = document.getElementById('studyGroup');
-      
-    
+    function carregarChat() {
+      const q = query(collection(db, 'chat'), orderBy('timestamp', 'desc'));
+      onSnapshot(q, (snap) => {
+        const grupoAtual = groupSelect.value;
+        let msgs = [];
+        snap.forEach(doc => msgs.push({ id: doc.id, ...doc.data() }));
+        
+        msgs = msgs.filter(m => m.group === grupoAtual).slice(0, 15); // últimas 15
+        
+        if (msgs.length === 0) {
+          chatMessages.innerHTML = '<p style="color:#7c8ba0;">Nenhuma mensagem ainda.</p>';
+          return;
+        }
+        
+        let html = '';
+        msgs.reverse().forEach(m => { // mais antiga primeiro
+          const hora = m.timestamp?.toDate ? 
+            m.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 
+            '';
+          html += `
+            <div class="chat-message">
+              <div class="chat-meta">${m.userEmail?.split('@')[0] || 'Alguém'} · 
