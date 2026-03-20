@@ -3,125 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusConnect | Premium Hub</title>
+  <title>CampusConnect | Premium Student App</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --primary: #4f46e5;
-      --surface: #ffffff;
-      --body: #f8fafc;
-      --text-main: #1e293b;
-      --text-sub: #64748b;
+      --primary: #6366f1;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --accent: #10b981;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--body); color: var(--text-main); line-height: 1.6; }
+    body { background: var(--bg); color: var(--text); line-height: 1.5; }
 
-    /* Glassmorphism Header */
-    .header { 
-        position: sticky; top: 0; z-index: 1000;
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(12px);
-        padding: 16px 24px;
-        display: flex; justify-content: space-between; align-items: center;
-        border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    /* Auth Design */
+    #auth-screen { 
+      height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
     }
+    .auth-card { background: var(--card); padding: 40px; border-radius: 32px; width: 90%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
 
-    .container { max-width: 450px; margin: 0 auto; padding: 20px; }
-
-    /* Dashboard Cards */
-    .card { 
-        background: var(--surface); border-radius: 24px; padding: 20px; 
-        margin-bottom: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
-        border: 1px solid #f1f5f9;
-    }
-
-    .map-container { width: 100%; height: 200px; border-radius: 18px; margin-bottom: 15px; background: #e2e8f0; }
-
-    /* Botões e Inputs */
-    .btn { 
-        width: 100%; padding: 14px; border-radius: 16px; border: none;
-        font-weight: 700; cursor: pointer; transition: 0.3s;
-        display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-google { background: white; border: 1px solid #e2e8f0; color: var(--text-main); }
+    /* App Layout */
+    .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .container { max-width: 480px; margin: 0 auto; padding: 20px; }
     
-    input { 
-        width: 100%; padding: 12px 16px; border-radius: 14px; 
-        border: 1px solid #e2e8f0; margin-bottom: 10px; background: #fcfdfe;
-    }
+    .card { background: var(--card); border-radius: 24px; padding: 20px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.05); }
+    
+    input { width: 100%; padding: 16px; border-radius: 16px; border: none; background: #334155; color: white; margin-bottom: 12px; }
+    .btn { width: 100%; padding: 16px; border-radius: 16px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 15px; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-outline { background: transparent; color: white; border: 1px solid #334155; margin-top: 10px; }
+    .btn-google { background: white; color: #0f172a; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-    /* Listas e Itens */
-    .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #e0e7ff; color: #4338ca; }
+    /* Real-Time Chat */
+    #chat-box { height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 5px; }
+    .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; font-size: 14px; line-height: 1.4; }
+    .msg.me { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+    .msg.them { align-self: flex-start; background: #334155; color: white; border-bottom-left-radius: 4px; }
+    .msg-user { font-size: 10px; font-weight: 800; margin-bottom: 4px; display: block; opacity: 0.7; }
 
-    /* Chat Messages */
-    #chat-window { height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-    .bubble { max-width: 80%; padding: 12px; border-radius: 18px; font-size: 14px; }
-    .bubble.me { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
-    .bubble.them { align-self: flex-start; background: #f1f5f9; border-bottom-left-radius: 4px; }
+    /* Rooms/Hotels List */
+    .room-item { display: flex; gap: 15px; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .room-price { color: var(--accent); font-weight: 800; font-size: 18px; }
 
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-<div id="auth-screen">
-    <div class="container" style="padding-top: 80px; text-align: center;">
-        <h1 style="font-size: 32px; margin-bottom: 10px;">Campus<span>Connect</span></h1>
-        <p style="color: var(--text-sub); margin-bottom: 40px;">A tua universidade no teu bolso.</p>
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
-        <button class="btn btn-primary" id="login-btn">Entrar</button>
-        <button class="btn btn-google" style="margin-top: 10px;" id="google-btn">Continuar com Google</button>
+  <div id="auth-screen">
+    <div class="auth-card">
+      <h1 style="margin-bottom: 8px;">CampusConnect</h1>
+      <p style="opacity: 0.6; margin-bottom: 24px; font-size: 14px;">Entra para veres os melhores quartos e grupos.</p>
+      
+      <input type="email" id="email" placeholder="teu@email.com">
+      <input type="password" id="password" placeholder="Palavra-passe">
+      
+      <button class="btn btn-primary" id="btn-login">Entrar</button>
+      <button class="btn btn-outline" id="btn-register">Criar conta nova</button>
+      <button class="btn btn-google" id="btn-google">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="18"> Google Login
+      </button>
+      <p id="auth-error" style="color: #fb7185; font-size: 12px; margin-top: 15px; text-align: center;"></p>
     </div>
-</div>
+  </div>
 
-<div id="app-screen" class="hidden">
-    <header class="header">
-        <div style="font-weight: 700; font-size: 18px;">Campus<span>Connect</span></div>
-        <button id="logout" style="border:none; background:none; font-size: 20px; cursor:pointer;">📥</button>
-    </header>
+  <div id="main-app" class="hidden">
+    <div class="header">
+      <h2 style="font-size: 18px;">👋 <span id="user-display">Estudante</span></h2>
+      <button id="btn-logout" style="background:none; border:none; font-size: 20px; cursor:pointer;">🚪</button>
+    </div>
 
     <div class="container">
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                <h3 style="font-size: 16px;">📍 Quartos & Hotéis</h3>
-                <span style="color: var(--primary); font-size: 12px; font-weight: 700;">LIVE MAP</span>
-            </div>
-            <div id="map" class="map-container"></div>
-            <div id="rooms-list"></div>
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+          <h3 style="font-size: 16px;">🏠 Melhores Quartos & Preços</h3>
+          <span style="font-size: 10px; background: var(--accent); color: #064e3b; padding: 2px 8px; border-radius: 10px; font-weight: 800;">LIVE</span>
         </div>
+        <div id="rooms-list">
+          <p style="font-size: 12px; opacity: 0.5;">A procurar ofertas em tempo real...</p>
+        </div>
+      </div>
 
-        <div class="card">
-            <h3 style="font-size: 16px; margin-bottom: 15px;">📅 Próximo Evento</h3>
-            <div id="routine-active" style="padding: 15px; background: #fdf2f8; border-radius: 16px; border-left: 4px solid #db2777;">
-                <div style="font-weight: 700; color: #db2777;">09:00 - Aula de Programação</div>
-                <p style="font-size: 12px; color: #9d174d;">Sala 204 • Falta 1h 15min</p>
-            </div>
+      <div class="card">
+        <h3 style="margin-bottom: 15px; font-size: 16px;">👥 Chat do Campus</h3>
+        <div id="chat-box"></div>
+        <div style="display: flex; gap: 8px; margin-top: 15px;">
+          <input type="text" id="chat-input" placeholder="Escreve algo..." style="margin-bottom: 0;">
+          <button id="btn-send" style="background: var(--primary); color: white; border: none; width: 50px; border-radius: 16px; cursor: pointer;">➔</button>
         </div>
-
-        <div class="card">
-            <h3 style="font-size: 16px; margin-bottom: 15px;">👥 Study Groups</h3>
-            <div id="chat-window"></div>
-            <div style="display: flex; gap: 8px; margin-top: 15px;">
-                <input type="text" id="chat-input" placeholder="Diz algo..." style="margin-bottom:0;">
-                <button id="send-btn" style="background: var(--primary); color:white; border:none; padding: 0 20px; border-radius: 14px;">➔</button>
-            </div>
-        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    // O teu Firebase (Mantive as tuas chaves)
     const firebaseConfig = {
       apiKey: "AIzaSyDNar96tviOoT6rjxWMO8B_T6gnvHNY-Dg",
       authDomain: "app3-73885.firebaseapp.com",
@@ -131,82 +115,92 @@
       appId: "1:313381846985:web:a1ab6a75a245322499f218"
     };
 
-    const fb = initializeApp(firebaseConfig);
-    const auth = getAuth(fb);
-    const db = getFirestore(fb);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    // -- LOGIN GOOGLE --
-    document.getElementById('google-btn').onclick = () => signInWithPopup(auth, provider);
-    document.getElementById('logout').onclick = () => signOut(auth);
+    // --- AUTENTICAÇÃO CORRIGIDA ---
+    const errorEl = document.getElementById('auth-error');
 
-    onAuthStateChanged(auth, (user) => {
-        if(user) {
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('app-screen').classList.remove('hidden');
-            startLiveModules();
-            initMap();
-        } else {
-            document.getElementById('auth-screen').classList.remove('hidden');
-            document.getElementById('app-screen').classList.add('hidden');
-        }
-    });
-
-    // -- GOOGLE MAPS --
-    function initMap() {
-        if (typeof google !== 'undefined') {
-            const porto = { lat: 41.1579, lng: -8.6291 };
-            const map = new google.maps.Map(document.getElementById("map"), { zoom: 14, center: porto, disableDefaultUI: true });
-            // Exemplo de Pin de Quarto
-            new google.maps.Marker({ position: { lat: 41.1600, lng: -8.6300 }, map, title: "Quarto Estudante" });
-        }
-    }
-
-    // -- REAL-TIME ENGINE --
-    function startLiveModules() {
-        // Chat Real-time
-        const qChat = query(collection(db, "chat"), orderBy("timestamp", "asc"));
-        onSnapshot(qChat, (snap) => {
-            const win = document.getElementById('chat-window');
-            win.innerHTML = '';
-            snap.forEach(doc => {
-                const m = doc.data();
-                const isMe = m.uid === auth.currentUser.uid;
-                win.innerHTML += `<div class="bubble ${isMe ? 'me' : 'them'}">${m.text}</div>`;
-            });
-            win.scrollTop = win.scrollHeight;
-        });
-
-        // Quartos Real-time
-        onSnapshot(collection(db, "rooms"), (snap) => {
-            const list = document.getElementById('rooms-list');
-            list.innerHTML = '';
-            snap.forEach(doc => {
-                const r = doc.data();
-                list.innerHTML += `
-                    <div class="item-row">
-                        <div>
-                            <div style="font-weight:700">${r.title}</div>
-                            <div style="font-size:11px; color:var(--text-sub)">${r.dist || 'A pé'}</div>
-                        </div>
-                        <div class="badge">${r.price}€</div>
-                    </div>`;
-            });
-        });
-    }
-
-    // -- ENVIO CHAT --
-    document.getElementById('send-btn').onclick = async () => {
-        const input = document.getElementById('chat-input');
-        if(!input.value) return;
-        await addDoc(collection(db, "chat"), {
-            text: input.value,
-            uid: auth.currentUser.uid,
-            timestamp: serverTimestamp()
-        });
-        input.value = '';
+    document.getElementById('btn-login').onclick = () => {
+      const e = document.getElementById('email').value;
+      const p = document.getElementById('password').value;
+      signInWithEmailAndPassword(auth, e, p).catch(err => errorEl.textContent = "Dados incorretos.");
     };
 
-</script>
+    document.getElementById('btn-register').onclick = () => {
+      const e = document.getElementById('email').value;
+      const p = document.getElementById('password').value;
+      createUserWithEmailAndPassword(auth, e, p).catch(err => errorEl.textContent = "Erro ao registar: Senha deve ter 6+ dígitos.");
+    };
+
+    document.getElementById('btn-google').onclick = () => signInWithPopup(auth, provider);
+    document.getElementById('btn-logout').onclick = () => signOut(auth);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('main-app').classList.remove('hidden');
+        document.getElementById('user-display').textContent = user.displayName || user.email.split('@')[0];
+        initRealTime();
+      } else {
+        document.getElementById('auth-screen').classList.remove('hidden');
+        document.getElementById('main-app').classList.add('hidden');
+      }
+    });
+
+    // --- LÓGICA TEMPO REAL (CHAT E QUARTOS) ---
+    function initRealTime() {
+      // CHAT INSTANTÂNEO
+      const qChat = query(collection(db, "messages"), orderBy("createdAt", "asc"));
+      onSnapshot(qChat, (snap) => {
+        const box = document.getElementById('chat-box');
+        box.innerHTML = '';
+        snap.forEach(doc => {
+          const m = doc.data();
+          const isMe = m.uid === auth.currentUser.uid;
+          box.innerHTML += `
+            <div class="msg ${isMe ? 'me' : 'them'}">
+              <span class="msg-user">${m.user}</span>
+              ${m.text}
+            </div>`;
+        });
+        box.scrollTop = box.scrollHeight;
+      });
+
+      // QUARTOS DO FIRESTORE (Podem ser alimentados pela APIFY)
+      onSnapshot(collection(db, "rooms"), (snap) => {
+        const list = document.getElementById('rooms-list');
+        list.innerHTML = '';
+        snap.forEach(doc => {
+          const r = doc.data();
+          list.innerHTML += `
+            <div class="room-item">
+              <div style="flex:1">
+                <div style="font-weight:600">${r.name}</div>
+                <div style="font-size:11px; opacity:0.6">📍 ${r.location}</div>
+              </div>
+              <div class="room-price">${r.price}€</div>
+            </div>`;
+        });
+      });
+    }
+
+    // ENVIAR MENSAGEM (INSTANTÂNEO)
+    document.getElementById('btn-send').onclick = async () => {
+      const input = document.getElementById('chat-input');
+      if(!input.value.trim()) return;
+      
+      await addDoc(collection(db, "messages"), {
+        text: input.value,
+        uid: auth.currentUser.uid,
+        user: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
+        createdAt: serverTimestamp()
+      });
+      input.value = '';
+    };
+
+  </script>
 </body>
 </html>
