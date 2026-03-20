@@ -3,134 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusConnect | O Teu Hub Universitário</title>
+  <title>CampusConnect | Premium Hub</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
   
   <style>
     :root {
-      --accent: #6366f1;
-      --accent-soft: #eef2ff;
-      --dark: #0f172a;
-      --slate: #64748b;
-      --glass: rgba(255, 255, 255, 0.9);
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      --primary: #4f46e5;
+      --surface: #ffffff;
+      --body: #f8fafc;
+      --text-main: #1e293b;
+      --text-sub: #64748b;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-    body { font-family: 'Outfit', sans-serif; background: #f1f5f9; color: var(--dark); overflow-x: hidden; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--body); color: var(--text-main); line-height: 1.6; }
 
-    /* Layout Premium */
-    .nav { background: var(--glass); backdrop-filter: blur(10px); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; sticky: top; z-index: 1000; border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
-    .nav h1 { font-size: 1.4rem; letter-spacing: -0.5px; }
-    .nav span { color: var(--accent); }
+    /* Glassmorphism Header */
+    .header { 
+        position: sticky; top: 0; z-index: 1000;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        padding: 16px 24px;
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    }
 
-    .main { max-width: 500px; margin: 0 auto; padding: 20px; }
+    .container { max-width: 450px; margin: 0 auto; padding: 20px; }
 
-    /* Cards Estilo App Moderno */
-    .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid #ffffff; transition: transform 0.2s; }
-    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .section-header h2 { font-size: 1.1rem; font-weight: 700; opacity: 0.9; }
+    /* Dashboard Cards */
+    .card { 
+        background: var(--surface); border-radius: 24px; padding: 20px; 
+        margin-bottom: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+        border: 1px solid #f1f5f9;
+    }
 
-    /* Inputs e Botões */
-    input, select { width: 100%; padding: 14px 18px; border: 1.5px solid #e2e8f0; border-radius: 16px; font-family: inherit; font-size: 1rem; margin-bottom: 12px; background: #f8fafc; }
-    input:focus { border-color: var(--accent); background: white; }
+    .map-container { width: 100%; height: 200px; border-radius: 18px; margin-bottom: 15px; background: #e2e8f0; }
 
-    .btn { background: var(--dark); color: white; border: none; padding: 16px; border-radius: 16px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .btn-google { background: white; color: var(--dark); border: 1.5px solid #e2e8f0; margin-top: 10px; }
-    .btn-accent { background: var(--accent); }
+    /* Botões e Inputs */
+    .btn { 
+        width: 100%; padding: 14px; border-radius: 16px; border: none;
+        font-weight: 700; cursor: pointer; transition: 0.3s;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-google { background: white; border: 1px solid #e2e8f0; color: var(--text-main); }
+    
+    input { 
+        width: 100%; padding: 12px 16px; border-radius: 14px; 
+        border: 1px solid #e2e8f0; margin-bottom: 10px; background: #fcfdfe;
+    }
 
-    /* Componente de Quartos (Smart Match) */
-    .room-entry { padding: 15px; border-radius: 20px; background: #f8fafc; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
-    .room-entry:hover { border-color: var(--accent-soft); background: white; }
-    .match-badge { font-size: 0.7rem; background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 8px; font-weight: 700; }
+    /* Listas e Itens */
+    .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #e0e7ff; color: #4338ca; }
 
-    /* Chat Estilo iMessage */
-    #chatBox { height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
-    .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; position: relative; }
-    .msg.mine { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 4px; }
-    .msg.others { align-self: flex-start; background: #f1f5f9; color: var(--dark); border-bottom-left-radius: 4px; }
-    .msg-meta { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; display: block; }
+    /* Chat Messages */
+    #chat-window { height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .bubble { max-width: 80%; padding: 12px; border-radius: 18px; font-size: 14px; }
+    .bubble.me { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+    .bubble.them { align-self: flex-start; background: #f1f5f9; border-bottom-left-radius: 4px; }
 
     .hidden { display: none !important; }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
   </style>
 </head>
 <body>
 
-  <nav class="nav">
-    <h1>🏛️ Campus<span>Connect</span></h1>
-    <div id="userAvatar" class="hidden" style="width: 35px; height: 35px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--accent); font-size: 0.8rem;"></div>
-  </nav>
-
-  <div class="main">
-    <div id="loginView">
-      <div class="card" style="margin-top: 20px; text-align: center;">
-        <h2 style="font-size: 1.6rem; margin-bottom: 8px;">Faz o teu login</h2>
-        <p style="color: var(--slate); margin-bottom: 30px;">Tudo o que precisas para a tua vida na Uni.</p>
-        
-        <input type="email" id="email" placeholder="Email institucional">
-        <input type="password" id="password" placeholder="Palavra-passe">
-        
-        <button class="btn btn-accent" id="btnLogin">Entrar na conta</button>
-        <button class="btn btn-google" id="btnGoogle">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="18"> Continuar com Google
-        </button>
-      </div>
+<div id="auth-screen">
+    <div class="container" style="padding-top: 80px; text-align: center;">
+        <h1 style="font-size: 32px; margin-bottom: 10px;">Campus<span>Connect</span></h1>
+        <p style="color: var(--text-sub); margin-bottom: 40px;">A tua universidade no teu bolso.</p>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button class="btn btn-primary" id="login-btn">Entrar</button>
+        <button class="btn btn-google" style="margin-top: 10px;" id="google-btn">Continuar com Google</button>
     </div>
+</div>
 
-    <div id="appView" class="hidden">
-      
-      <div class="card" style="background: var(--dark); color: white;">
-        <div class="section-header">
-          <h2 style="color: white;">⏰ Próxima Aula</h2>
-          <span id="currentTime" style="font-size: 0.8rem; opacity: 0.6;"></span>
-        </div>
-        <div id="nextEvent">Adiciona a tua rotina abaixo 👇</div>
-      </div>
+<div id="app-screen" class="hidden">
+    <header class="header">
+        <div style="font-weight: 700; font-size: 18px;">Campus<span>Connect</span></div>
+        <button id="logout" style="border:none; background:none; font-size: 20px; cursor:pointer;">📥</button>
+    </header>
 
-      <div class="card">
-        <div class="section-header">
-          <h2>🏠 Alojamento & Match</h2>
-          <button id="showRoomForm" style="background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer;">+ Novo</button>
-        </div>
-
-        <div id="roomForm" class="hidden" style="margin-bottom: 20px;">
-          <input type="text" id="rtitle" placeholder="Ex: T1 Baixa do Porto">
-          <input type="number" id="rprice" placeholder="Renda mensal (€)">
-          <input type="text" id="rdist" placeholder="Distância (ex: 3 min a pé)">
-          <button class="btn btn-accent" id="btnSaveRoom">Publicar Anúncio</button>
+    <div class="container">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <h3 style="font-size: 16px;">📍 Quartos & Hotéis</h3>
+                <span style="color: var(--primary); font-size: 12px; font-weight: 700;">LIVE MAP</span>
+            </div>
+            <div id="map" class="map-container"></div>
+            <div id="rooms-list"></div>
         </div>
 
-        <div id="roomsContainer"></div>
-      </div>
-
-      <div class="card">
-        <div class="section-header">
-          <h2>👥 Study Group</h2>
-          <select id="chatTopic" style="width: auto; margin-bottom: 0; padding: 5px 10px; font-size: 0.8rem; border-radius: 8px;">
-            <option value="geral">Geral</option>
-            <option value="exames">Exames</option>
-          </select>
+        <div class="card">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">📅 Próximo Evento</h3>
+            <div id="routine-active" style="padding: 15px; background: #fdf2f8; border-radius: 16px; border-left: 4px solid #db2777;">
+                <div style="font-weight: 700; color: #db2777;">09:00 - Aula de Programação</div>
+                <p style="font-size: 12px; color: #9d174d;">Sala 204 • Falta 1h 15min</p>
+            </div>
         </div>
-        
-        <div id="chatBox"></div>
-        
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-          <input type="text" id="msgInput" placeholder="Escreve aqui..." style="margin-bottom: 0;">
-          <button id="btnSend" style="background: var(--accent); color: white; border: none; width: 50px; border-radius: 16px; cursor: pointer;">➔</button>
-        </div>
-      </div>
 
-      <button id="btnLogout" style="width: 100%; background: none; border: none; color: var(--slate); font-size: 0.9rem; margin-top: 10px; cursor: pointer;">Terminar Sessão</button>
+        <div class="card">
+            <h3 style="font-size: 16px; margin-bottom: 15px;">👥 Study Groups</h3>
+            <div id="chat-window"></div>
+            <div style="display: flex; gap: 8px; margin-top: 15px;">
+                <input type="text" id="chat-input" placeholder="Diz algo..." style="margin-bottom:0;">
+                <button id="send-btn" style="background: var(--primary); color:white; border:none; padding: 0 20px; border-radius: 14px;">➔</button>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 
-  <script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -144,123 +131,82 @@
       appId: "1:313381846985:web:a1ab6a75a245322499f218"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const googleProvider = new GoogleAuthProvider();
+    const fb = initializeApp(firebaseConfig);
+    const auth = getAuth(fb);
+    const db = getFirestore(fb);
+    const provider = new GoogleAuthProvider();
 
-    // --- SISTEMA DE AUTENTICAÇÃO ---
-    document.getElementById('btnLogin').onclick = () => {
-        const e = document.getElementById('email').value;
-        const p = document.getElementById('password').value;
-        signInWithEmailAndPassword(auth, e, p).catch(err => alert("Dados incorretos"));
-    };
-
-    document.getElementById('btnGoogle').onclick = () => {
-        signInWithPopup(auth, googleProvider).catch(err => console.log(err));
-    };
-
-    document.getElementById('btnLogout').onclick = () => signOut(auth);
+    // -- LOGIN GOOGLE --
+    document.getElementById('google-btn').onclick = () => signInWithPopup(auth, provider);
+    document.getElementById('logout').onclick = () => signOut(auth);
 
     onAuthStateChanged(auth, (user) => {
-        const loginView = document.getElementById('loginView');
-        const appView = document.getElementById('appView');
-        const avatar = document.getElementById('userAvatar');
-
-        if (user) {
-            loginView.classList.add('hidden');
-            appView.classList.remove('hidden');
-            avatar.classList.remove('hidden');
-            avatar.textContent = user.email[0].toUpperCase();
-            initRealTimeData();
+        if(user) {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+            startLiveModules();
+            initMap();
         } else {
-            loginView.classList.remove('hidden');
-            appView.classList.add('hidden');
-            avatar.classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('app-screen').classList.add('hidden');
         }
     });
 
-    // --- DADOS EM TEMPO REAL ---
-    function initRealTimeData() {
-        // Escuta Quartos
-        onSnapshot(query(collection(db, "rooms"), orderBy("createdAt", "desc")), (snap) => {
-            const container = document.getElementById('roomsContainer');
-            container.innerHTML = '';
+    // -- GOOGLE MAPS --
+    function initMap() {
+        if (typeof google !== 'undefined') {
+            const porto = { lat: 41.1579, lng: -8.6291 };
+            const map = new google.maps.Map(document.getElementById("map"), { zoom: 14, center: porto, disableDefaultUI: true });
+            // Exemplo de Pin de Quarto
+            new google.maps.Marker({ position: { lat: 41.1600, lng: -8.6300 }, map, title: "Quarto Estudante" });
+        }
+    }
+
+    // -- REAL-TIME ENGINE --
+    function startLiveModules() {
+        // Chat Real-time
+        const qChat = query(collection(db, "chat"), orderBy("timestamp", "asc"));
+        onSnapshot(qChat, (snap) => {
+            const win = document.getElementById('chat-window');
+            win.innerHTML = '';
+            snap.forEach(doc => {
+                const m = doc.data();
+                const isMe = m.uid === auth.currentUser.uid;
+                win.innerHTML += `<div class="bubble ${isMe ? 'me' : 'them'}">${m.text}</div>`;
+            });
+            win.scrollTop = win.scrollHeight;
+        });
+
+        // Quartos Real-time
+        onSnapshot(collection(db, "rooms"), (snap) => {
+            const list = document.getElementById('rooms-list');
+            list.innerHTML = '';
             snap.forEach(doc => {
                 const r = doc.data();
-                const isMatch = r.price < 400; // Lógica simples de "Melhor Preço"
-                container.innerHTML += `
-                    <div class="room-entry">
+                list.innerHTML += `
+                    <div class="item-row">
                         <div>
-                            <div style="font-weight:700">${r.title} ${isMatch ? '<span class="match-badge">SMART MATCH</span>' : ''}</div>
-                            <div style="font-size:0.8rem; color:var(--slate)">📍 ${r.dist}</div>
+                            <div style="font-weight:700">${r.title}</div>
+                            <div style="font-size:11px; color:var(--text-sub)">${r.dist || 'A pé'}</div>
                         </div>
-                        <div style="text-align:right">
-                            <div style="font-weight:700; color:var(--accent)">${r.price}€</div>
-                            <div style="font-size:0.6rem; opacity:0.6">mensais</div>
-                        </div>
+                        <div class="badge">${r.price}€</div>
                     </div>`;
             });
         });
-
-        // Escuta Chat (TEMPO REAL CORRIGIDO)
-        let unsubscribeChat = onSnapshot(query(collection(db, "chat"), orderBy("timestamp", "asc")), (snap) => {
-            const box = document.getElementById('chatBox');
-            const topic = document.getElementById('chatTopic').value;
-            box.innerHTML = '';
-            snap.forEach(doc => {
-                const m = doc.data();
-                if(m.topic === topic) {
-                    const isMine = m.uid === auth.currentUser.uid;
-                    box.innerHTML += `
-                        <div class="msg ${isMine ? 'mine' : 'others'}">
-                            ${!isMine ? `<span class="chat-user" style="font-size:0.7rem; font-weight:700; display:block; margin-bottom:2px;">${m.user}</span>` : ''}
-                            ${m.text}
-                            <span class="msg-meta">${m.time || ''}</span>
-                        </div>`;
-                }
-            });
-            box.scrollTop = box.scrollHeight;
-        });
-
-        document.getElementById('chatTopic').onchange = () => initRealTimeData();
     }
 
-    // Enviar Mensagem
-    document.getElementById('btnSend').onclick = async () => {
-        const input = document.getElementById('msgInput');
+    // -- ENVIO CHAT --
+    document.getElementById('send-btn').onclick = async () => {
+        const input = document.getElementById('chat-input');
         if(!input.value) return;
-        
         await addDoc(collection(db, "chat"), {
             text: input.value,
-            topic: document.getElementById('chatTopic').value,
-            user: auth.currentUser.email.split('@')[0],
             uid: auth.currentUser.uid,
-            timestamp: serverTimestamp(),
-            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            timestamp: serverTimestamp()
         });
         input.value = '';
     };
 
-    // UI Logic
-    document.getElementById('showRoomForm').onclick = () => document.getElementById('roomForm').classList.toggle('hidden');
-    
-    document.getElementById('btnSaveRoom').onclick = async () => {
-        const t = document.getElementById('rtitle').value;
-        const p = document.getElementById('rprice').value;
-        const d = document.getElementById('rdist').value;
-        if(t && p) {
-            await addDoc(collection(db, "rooms"), { title: t, price: Number(p), dist: d, createdAt: serverTimestamp() });
-            document.getElementById('roomForm').classList.add('hidden');
-        }
-    };
-
-    // Clock
-    setInterval(() => {
-        const now = new Date();
-        document.getElementById('currentTime').textContent = now.toLocaleTimeString();
-    }, 1000);
-
-  </script>
+</script>
 </body>
 </html>
